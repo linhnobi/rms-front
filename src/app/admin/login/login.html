@@ -1,0 +1,58 @@
+<!-- Begin: Content -->
+<section id="content" ng-if="!logged">
+
+	<div class="admin-form theme-info" id="login1">
+		<div class="panel panel-info mt10 br-n">
+
+			<div class="text-center panel-heading heading-border bg-white">
+				<h1>ĐĂNG NHẬP</h1>
+			</div>
+
+			<!-- end .form-header section -->
+			<form name="form" ng-submit="login(form)" id="contact">
+				<div class="panel-body bg-light p30">
+					<div class="row">
+						<div class="col-sm-12 pr30">
+							<div class="section" ng-class="{'has-error':form.email.$dirty && form.email.$invalid}">
+								<label for="email" class="field-label text-muted fs18 mb10">Email</label>
+								<label for="email" class="field prepend-icon">
+									<input type="text" class="form-control" 
+												 ng-required="true"
+												 ng-pattern="/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/"
+												 ng-model="model.email"
+												 name="email"
+												 placeholder="Địa chỉ email">
+									<label for="username" class="field-icon"><i class="fa fa-user"></i>
+									</label>
+								</label>
+							</div>
+							<!-- end section -->
+
+							<div class="section" ng-class="{'has-error':form.password.$dirty && form.password.$invalid}">
+								<label for="username" class="field-label text-muted fs18 mb10">Mật khẩu</label>
+								<label for="password" class="field prepend-icon">
+									<input type="password" class="form-control" 
+												 ng-required="true" 
+												 ng-model="model.password"
+												 name="password"
+												 placeholder="Password">
+									<label for="password" class="field-icon"><i class="fa fa-lock"></i>
+									</label>
+								</label>
+							</div>
+							<!-- end section -->
+
+						</div>
+					</div>
+				</div>
+				<!-- end .form-body section -->
+				<div class="panel-footer clearfix p10 ph15">
+					<button type="submit" class="btn btn-primary mr10 pull-right">Đăng nhập</button>
+				</div>
+				<!-- end .form-footer section -->
+			</form>
+		</div>
+	</div>
+
+</section>
+<!-- End: Content -->

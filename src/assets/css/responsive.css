@@ -1,0 +1,156 @@
+
+@media all and (min-width: 320px) and (max-width: 900px) {
+	.container {
+		width:auto;
+		padding: 0px 15px;
+	}
+}
+@media all and (min-width: 320px) and (max-width: 767px) {
+	.box-media {
+		padding-left:0px;
+	}
+	.media-img {
+		width: auto;
+		position: relative;
+		margin-bottom: 10px;
+	}
+	.table > tbody > tr > td, .table > tbody > tr > th {
+		padding: 5px;
+	}
+	.name-room-calen span {
+		width: 100px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		height: 17px;
+		display: block;
+	}
+	.box-search .btn {
+		margin-top: 10px;
+	}
+	.nav-calendar .date {
+		width: auto;
+	}
+	.nav-calendar {
+		padding-top: 60px;
+	}
+	.nav-calendar .btn-default {
+		padding: 5px;
+	}
+	.button-checkout .btn, .button-payment .btn {
+		width: 100%;
+	}
+	.step-checkout span {
+		width: 30px;
+		height: 30px;
+		line-height: 30px;
+		top: -4px;
+		left: -43px;
+	}
+	.table {
+		display: none;
+	}
+	.table-mobile {
+		display: table;
+	}
+	.name-hotel {
+		float: none;
+		text-align: left;
+		font-size: 18px;
+	}
+	.right-header{
+		float: none;
+		text-align: left;
+		padding-top: 0px;
+	}
+	.right-header .dropdown {
+		display: inline-block;
+		float: none;
+	}
+	.full-page .right-header .dropdown {
+		margin-left: 0px;
+		margin-right: 10px;
+	}
+	.img-property {
+		padding: 0px;
+	}
+	.detail-property:after{
+		display: none;
+	}
+	.slider-nav .slick-slide img {
+		height: 20px;
+	}
+	.slider-for .slick-slide img {
+		height: 200px;
+	}
+	#map-canvas {
+		margin-bottom: 10px;
+	}
+	.menu-page.stick, .line-search.stick {
+		position: relative;
+	}
+	.search-wiget.fixed, .cart-right.fixed {
+		position: relative;
+		top: 0px;
+	}
+	.right-header .menu-page {
+		position: absolute;
+		top: 79px;
+		left: 0px;
+		background: rgba(0,0,0,0.5);
+		padding: 15px;
+		width: 100%;
+		padding-top: 0px;
+		display: none !important;
+	}
+	.right-header .menu-page.active {
+		display: block !important;
+	}
+	.right-header .menu-page ul li {
+		display: block;
+		text-align: left;
+		margin: 0xp;
+	}
+	.right-header .menu-page ul li a {
+		padding: 5px 0px;
+	}
+	.toggle-menu-page {
+		padding: 3px 10px;
+		border: 1px solid #fff;
+		position: absolute;
+		top: 20px;
+		right: 10px;
+		color: #fff;
+		font-size: 17px;
+	}
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+	.table > tbody > tr > td, .table > tbody > tr > th {
+		padding: 5px;
+	}
+	.nav-calendar .date {
+		width: 170px;
+	}
+	.header.stick .name-hotel {
+		text-align: center;
+		float: none;
+		font-size: 17px;
+	}
+	.full-page .right-header .dropdown {
+		margin-left: 5px;
+	}
+	.right-header .menu-page ul li {
+		padding-right: 4px;
+		margin-right: 4px;
+	}
+	.right-header {
+		padding: 0px;
+	}
+	.line-search.stick {
+		margin-top: 76px;
+	}
+	.cart-right.stick {
+		top: 150px;
+	}
+}

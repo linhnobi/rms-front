@@ -1,0 +1,32 @@
+<header id="topbar">
+	<div class="topbar-left">
+		<div ncy-breadcrumb></div>
+	</div>
+	<div class="pull-right" go-home></div>
+</header>
+<section id="content">
+	<div class="row panel">
+		<div class="col-xs-12 panel-body">
+			<table class="table table-striped table-hover dataTable no-footer" datatable="ng" dt-options="dtOptions">
+				<thead>
+					<tr class="success">
+						<th>Tài khoản ID</th>
+						<th>Email</th>
+						<th>Địa chỉ IP</th>
+						<th>Thời gian đăng nhập</th>
+						<th>Thời gian đăng xuất</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="access in allAccess">
+						<td><a ui-sref="admin.accessUser({id: access.userId, from: 'all'})">{{access.userId}}</a></td>
+						<td>{{access.email}}</td>
+						<td>{{access.ipAddress}}</td>
+						<td>{{access.loggedTime | timeFilter: 'DD-MM-YYYY HH:mm:ss'}}</td>
+						<td>{{access.logoutDate | timeFilter: 'DD-MM-YYYY HH:mm:ss'}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>

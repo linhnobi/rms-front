@@ -1,0 +1,70 @@
+<div class="container">
+	<div class="row header">
+
+		<div class="col-md-7">
+			<div class="country-img">
+				<img src="assets/img/country.png">
+			</div>
+		</div>
+		<div class="col-md-5">
+			<div class="login">
+				<form name="form" ng-submit="login(form)" novalidate ng-show="loginForm">
+					<img class="logo" src="assets/img/logo.png">
+					<div class="input-group" ng-class="{'has-error':form.email.$dirty && form.email.$invalid}">
+						<input type="text" class="form-control" 
+									 ng-required="true"
+									 ng-pattern="/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/"
+									 ng-model="model.email"
+									 name="email"
+									 placeholder="Địa chỉ email" aria-describedby="basic-addon1">
+						<span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
+
+					</div>
+					<div class="input-group" ng-class="{'has-error':form.password.$dirty && form.password.$invalid}">
+						<input type="password" class="form-control" 
+									 ng-required="true" 
+									 ng-model="model.password"
+									 name="password"
+									 placeholder="Password" aria-describedby="basic-addon1">
+						<span class="input-group-addon" id="basic-addon1"><i class="fa fa-lock"></i></span>
+
+					</div>
+					<button type="submit" class="btn btn-info"> Đăng nhập</button>
+					<a class="forgot" ng-click="toggle()" href="#">Quên mật khẩu</a>
+					<div class="clear"></div>
+				</form>
+				<form name="forgotForm" ng-submit="forgot(forgotForm)" novalidate ng-show="!loginForm">
+					<img class="logo" src="assets/img/logo.png">
+					<div class="input-group" ng-class="{'has-error': forgotForm.email.$dirty && forgotForm.email.$invalid}">
+						<input type="text" class="form-control" 
+									 ng-required="true"
+									 ng-pattern="/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/"
+									 ng-model="email"
+									 name="email"
+									 placeholder="Địa chỉ email" aria-describedby="basic-addon1">
+						<span class="input-group-addon" id="basic-addon1"><i class="fa fa-user"></i></span>
+					</div>
+					<button type="submit" class="btn btn-info">Lấy lại mật khẩu</button>
+					<a class="forgot" ng-click="toggle()" href="#">Đăng nhập</a>
+					<div class="clear"></div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+	<div class="footer">
+		<p>2008 Copyright TDSoft.All Rights Reversed</p>
+		<ul>
+			<li>
+				<a href="#">Hướng dẫn</a>
+			</li>
+			<li>
+				<a href="#">Liên hệ</a>
+			</li>
+			<li>
+				<a href="#">Hỗ trợ</a>
+			</li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>

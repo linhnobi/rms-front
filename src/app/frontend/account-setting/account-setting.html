@@ -1,0 +1,72 @@
+<rms-header></rms-header>
+<header id="topbar">
+	<div class="topbar-left">
+		<div ncy-breadcrumb></div>
+	</div>
+</header>
+<section id="content_wrapper" >
+	<section id="content" class="account-setting-page">
+		<div class="mb20 mt20">
+			<h3 class="wf-text-primary fw600">CÀI ĐẶT TÀI KHOẢN</h3>
+		</div>
+		<div class="mt20">
+			<div class="panel">
+				<div class="panel-body">
+					<div class="row mt30 mb30">
+						<div class="col-xs-12 col-md-8 mb20">
+							<form class="form-horizontal account-setting-form mb50" name="emailForm" ng-submit="update(emailForm)" novalidate>
+								<div class="form-group" ng-class="{'has-error': emailForm.email.$dirty && emailForm.email.$invalid}">
+									<label class="control-label col-sm-6" for="email">Email <span class="required">*</span></label>
+									<div class="col-sm-6">
+										<input type="email" 
+													 name="email" 
+													 ng-required="true"
+													 ng-pattern="/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/"
+													 ng-model="model.email" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-6">&nbsp;</label>
+									<div class="col-sm-6">
+										<button type="submit" class="btn btn-primary">{{updateLoading ? 'Đang cập nhật...' : 'Lưu'}}</button>
+									</div>
+								</div>
+							</form>
+							<form class="form-horizontal account-setting-form" name="form" ng-submit="changePassword(form)" novalidate>
+								<div class="form-group"  ng-class="{'has-error': form.oldPassword.$dirty && form.oldPassword.$invalid}">
+									<label class="control-label col-sm-6">Mật khẩu hiện tại <span class="required">*</span></label>
+									<div class="col-sm-6">
+										<input type="password" name="oldPassword" ng-required="true" ng-model="info.oldPassword" class="form-control">
+									</div>
+								</div>
+								<div class="form-group" ng-class="{'has-error': form.password.$dirty && form.password.$invalid}">
+									<label class="control-label col-sm-6">Mật khẩu mới <span class="required">*</span></label>
+									<div class="col-sm-6">
+										<input type="password" name="password" ng-required="true" ng-model="info.password" class="form-control" />
+									</div>
+								</div>
+								<div class="form-group" ng-class="{'has-error': form.confirmPassword.$dirty && form.confirmPassword.$invalid}">
+									<label class="control-label col-sm-6">Nhập lại mật khẩu mới <span class="required">*</span></label>
+									<div class="col-sm-6">
+										<input type="password" name="confirmPassword" ng-required="true" ng-model="info.confirmPassword"  class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-6">&nbsp;</label>
+									<div class="col-sm-6">
+										<button class="btn btn-primary">{{changeLoading ? 'Đang cập nhật...' : 'Lưu'}}</button>
+										&nbsp; 
+										<a class="btn btn-default" ui-sref="statistics">Quay lại</a>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="col-xs-12 col-md-4" user-info user="user" allow-change="false"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+</section>
+<div id="footer">Designed by TDSOFT © 2016</div>

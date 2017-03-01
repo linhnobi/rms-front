@@ -1,0 +1,4 @@
+<header rms-admin-header class="navbar navbar-fixed-top bg-system" ng-if="!adminLogin && adminSide"></header>
+<aside rms-admin-aside id="sidebar_left" class="nano nano-primary sidebar-default" ng-if="!adminLogin && adminSide"></aside>
+<section id="content_wrapper" ui-view ng-show="adminSide"></section>
+<div id="footer">Designed by TDSOFT © 2016</div>

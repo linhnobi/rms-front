@@ -1,0 +1,284 @@
+<header id="topbar">
+    <div class="topbar-left">
+        <div ncy-breadcrumb></div>
+    </div>
+    <div class="pull-right" go-home></div>
+</header>
+<section id="content">
+<style type="text/css">
+    .dataTables_paginate .pagination {
+        margin: 0px;
+        float: left;
+    }
+    table.dataTable tbody th, table.dataTable tbody td {
+        padding: 10px 5px;
+    }
+    button.dt-button, div.dt-button, a.dt-button {
+        background-image: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        font-style: 12px;
+        color: #333;
+        background: #FAFAFA;
+        margin: 0px;
+        border-radius: 0px;
+    }
+
+    button.dt-button:hover:not(.disabled), div.dt-button:hover:not(.disabled), a.dt-button:hover:not(.disabled) {
+        background-image: none;
+        background: #ececec;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    div.dt-buttons {
+        float: right;
+    }
+    .table-scroll {
+      border: 0;
+      border-collapse: collapse;
+    }
+
+    .table-scroll tr {
+      display: flex;
+    }
+
+    .table-scroll td {
+      padding: 3px;
+      flex: 1 auto;
+      border: 1px solid #aaa;
+      width: 1px;
+      word-wrap: break;
+    }
+
+    .table-scroll thead tr:after {
+      content: '';
+      overflow-y: scroll;
+      visibility: hidden;
+      height: 0;
+    }
+
+    .table-scroll thead th {
+      flex: 1 auto;
+      display: block;
+      width: 1px;
+      border: 1px solid #000;
+    }
+
+    .table-scroll tbody {
+      display: block;
+      width: 100%;
+      overflow-y: auto;
+      height: 500px;
+    }
+/*    #tabledata850 {
+        width: 50% !important;
+    }
+    #tabledata2480 {
+        width: 80% !important;
+    }*/
+
+</style>
+    <div class="row data-tab">
+            <div class="col-md-4 col-sx-12">
+                <h3>Đang xem dữ liệu trạm: {{model.station.StationFullNam}}</h3>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="input-group" style="height:30px" moment-picker="momentDate" format="DD-MM-YYYY"
+                             locale="vi" start-view="month" min-view="decade">
+                            <span class="input-group-addon">
+                                <i class="octicon octicon-calendar"></i>
+                            </span> <input class="form-control" placeholder="Chọn ngày hiển thị dữ liệu"
+                                           ng-model="momentDate" ng-model-options="{ updateOn: 'blur' }">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <select class="form-control" ng-model="model.days">
+                            <option value="0">Chọn số ngày trước</option>
+                            <option value="1">1 ngày trước</option>
+                            <option value="2">2 ngày trước</option>
+                            <option value="3">3 ngày trước</option>
+                            <option value="4">4 ngày trước</option>
+                            <option value="5">5 ngày trước</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" ng-model="model.intervals">
+                            <option ng-repeat="i in getNumber(12) track by $index"
+                                    value="{{($index +1)*5}}">{{($index +1)*5}} phút
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="tab_map" class="tab-pane" area="currentArea" stations="stations" userinfo="userinfo"
+                             rms-map></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-8 col-sx-12">
+                <div class="form-group row">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sx-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#rainChart">Tổng kết giờ</a></li>
+                            <li><a data-toggle="tab" href="#waterChart">Diễn biến phút</a></li>
+                            <li><a data-toggle="tab" href="#dataTable">Bảng Số Liệu Phút</a></li>
+                            <li><a data-toggle="tab" href="#dataTableHour">Bảng Số Liệu Giờ</a></li>
+                            <!--<li><a data-toggle="tab" href="#dataTable24" ng-show="model.station.sensor == 24">Bảng Số Liệu 24 Sensors</a></li>-->
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="rainChart" class="tab-pane fade in active">
+                                <canvas style="margin-top: 10px" id="bar" class="chart chart-bar" chart-data="rainChartData"
+                                        chart-labels="rainChartLabels" chart-series="rainChartSeries"
+                                        chart-dataset-override="rainChartDatasetOverride"
+                                        chart-options="rainChartOptions" chart-colors="rainColours" ng-show="model.station"/>
+                                <p style="text-align: center" ng-show="!model.station">Chọn trạm để xem thông tin</p>
+                            </div>
+                            <div id="waterChart" class="tab-pane fade">
+                                <canvas id="base" class="chart-bar" chart-data="waterChartData"
+                                        chart-labels="waterChartLabels" chart-colors="waterColours"
+                                        chart-dataset-override="waterChartDatasetOverride"
+                                        chart-options="waterChartOptions" ng-show="model.station"></canvas>
+                                <p style="text-align: center" ng-show="!model.station">Chọn trạm để xem thông tin</p>
+                            </div>
+                            <div id="dataTable" class="tab-pane fade">
+                                <div ng-hide="dataTableMinute8.length == 0">
+                                    <table id="tabledata850" datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-striped table-bordered table-scroll">
+                                        <thead>
+                                        <tr>
+                                            <th>Ngày Giờ</th>
+                                            <th>R(mm)</th>
+                                            <th>H(mm)</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="item in dataTableMinute8">
+                                            <td>{{ (item.g_hour < 10 ? '0'+item.g_hour : item.g_hour)+':'+(item.g_minute < 10 ? '0'+item.g_minute : item.g_minute) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[0],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[1],true) }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div ng-hide="dataTableMinute24.length == 0">
+                                    <table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-striped table-bordered table-scroll">
+                                        <thead>
+                                        <tr>
+                                            <th>Ngày Giờ</th>
+                                            <th>R</th>
+                                            <th>T</th>
+                                            <th>Tmax</th>
+                                            <th>Tmin</th>
+                                            <th>U</th>
+                                            <th>Umin</th>
+                                            <th>Po</th>
+                                            <th>P</th>
+                                            <th>Pmax</th>
+                                            <th>Pmin</th>
+                                            <th>dd</th>
+                                            <th>ff</th>
+                                            <th>dxdx 2s</th>
+                                            <th>fxfx 2s</th>
+                                            <th>BXC</th>
+                                            <th>BXT</th>
+                                            <th>SH</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="item in dataTableMinute24">
+                                            <td>{{ (item.g_hour < 10 ? '0'+item.g_hour : item.g_hour)+':'+(item.g_minute < 10 ? '0'+item.g_minute : item.g_minute) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[0],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[1],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[2],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[3],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[4],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[5],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[6],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[7],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[8],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[9],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[10],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[11],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[12],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[13],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[14],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[15],true) }}</td>
+                                            <td>{{ validateValue2(item.g_dat[16],true) }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p style="text-align: center" ng-show="!model.station">Chọn trạm để xem thông tin</p>
+                            </div>
+                            <div id="dataTableHour" class="tab-pane fade">
+                                <div ng-hide="dataTableHour8.length==0">
+                                    <table id="tabledata2480" datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-striped table-bordered table-scroll">
+                                        <thead>
+                                            <tr>
+                                                <th>Giờ</th>
+                                                <th>R(mm)</th>
+                                                <th>H(mm)</th>
+                                                <th>H Max</th>
+                                                <th>H Min</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dataTableHour8">
+                                                <td>{{ item.g_hour }}</td>
+                                                <td>{{ validateValue2(item.g_dat[0],true) }}</td>
+                                                <td>{{ validateValue2(item.g_dat[1],true) }}</td>
+                                                <td>{{ validateValue2(item.g_dat[2],true) }}</td>
+                                                <td>{{ validateValue2(item.g_dat[3],true) }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div ng-hide="dataTableHour24.length==0">
+                                    <table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-striped table-bordered table-scroll">
+                                        <thead>
+                                            <tr>
+                                                <th>Giờ</th>
+                                                <th>T</th>
+                                                <th>dd</th>
+                                                <th>ff</th>
+                                                <th>dxdx 2s</th>
+                                                <th>fxfx 2s</th>
+                                                <th>BXC</th>
+                                                <th>BXT</th>
+                                                <th>SH</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in dataTableHour24">
+                                                <td>{{ item.g_hour }}</td>
+                                                <td>{{ validateValue2(item.g_dat[1],true) }}</td>
+                                                <td>{{ validateValue2(item.g_dat[10],true) }}</td>
+                                                <td>{{ validateValue2(item.g_dat[11],true) }}</td>
+                                                <td>{{ validateValue2(item.g_dat[12],true) }}</td>
+                                                <td>{{ validateValue2(item.g_dat[13],true) }}</td>
+                                                <td>{{ validateValue2(item.g_dat[14],true) }}</td>
+                                                <td>{{ validateValue2(item.g_dat[15],true) }}</td>
+                                                <td>{{ validateValue2(item.g_dat[16],true) }}</td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p style="text-align: center" ng-show="!model.station">Chọn trạm để xem thông tin</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <title>RMS System</title>
+    <meta name="keywords" content="HTML5 Bootstrap 3 Admin Template UI Theme" />
+    <meta name="description" content="AdminDesigns - SHARED ON THEMELOCK.COM">
+    <meta name="author" content="AdminDesigns">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font CSS (Via CDN) -->
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+		<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="bower_components/datatables/media/css/dataTables.bootstrap.css">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+		<link rel="stylesheet" type="text/css" href="assets/css/theme.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/admin-forms.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/app.css">
+	</head>
+	<body  class="dashboard-page sb-l-o sb-r-c">
+		<div id="main">
+			<header class="navbar bg-system">
+				<div >
+					<a class="navbar-brand" href="#"> <h1>LOGO</h1></a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle user-dropdown" data-toggle="dropdown"> <img src="assets/img/avatars/1.jpg" alt="avatar" class="mw30 br64 mr15">
+							<span>Nhan Anh Ngoc</span>&nbsp;&nbsp;&nbsp;
+							<span class="caret caret-tp hidden-xs"></span>
+						</a>
+						<ul class="dropdown-menu dropdown-persist pn w250 bg-white" role="menu">
+							<li class="of-h">
+								<a href="#" class="fw600 p12 animated animated-short fadeInUp">
+									Hồ sơ
+								</a>
+							</li>
+							<li class="br-t of-h">
+								<a href="#" class="fw600 p12 animated animated-short fadeInUp">
+									Cài đặt tài khoản
+								</a>
+							</li>
+							<li class="br-t of-h">
+								<a href="#" class="fw600 p12 animated animated-short fadeInDown">
+									Đăng Xuất
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</header>
+
+			<section id="content_wrapper" class="map-page">
+				<section id="content">
+					<div class="panel mt10">
+						<div class="panel-body">
+							<form role="form" class="admin-form">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-5">
+											<div class="section">
+												<div class="smart-widget sm-left sml-120">
+													<label class="field select prepend-icon">
+														<select id="country" name="country">
+															<option value="">-- Lựa chọn khu vực --</option>
+															<option value="AL">Albania</option>
+															<option value="DZ">Algeria</option>
+														</select>
+														<i class="arrow"></i>
+														<label for="email" class="field-icon"><i class="fa fa-envelope"></i></label>
+													</label>
+													<label class="button btn-primary">Khu vực</label>
+												</div> 
+											</div>
+										</div>
+										<div class="col-md-offset-2 col-md-5">
+											<div class="section">
+												<div class="smart-widget sm-left sml-120">
+													<label class="field select prepend-icon">
+														<select id="country" name="country">
+															<option value="">-- Lựa chọn khu vực --</option>
+															<option value="AL">Albania</option>
+															<option value="DZ">Algeria</option>
+														</select>
+														<i class="arrow"></i>
+														<label for="email" class="field-icon"><i class="fa fa-envelope"></i></label>
+													</label>
+													<label class="button btn-primary">Khu vực</label>
+												</div> 
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+
+							<div class="row mt-20 data-tab">
+								<div class="panel">
+									<div class="panel-heading">
+										<ul class="nav panel-tabs-border panel-tabs panel-tabs-left">
+											<li class="active">
+												<a href="#tab_map" data-toggle="tab" aria-expanded="true">Bản đồ</a>
+											</li>
+											<li class="">
+												<a href="#tab_chart" data-toggle="tab" aria-expanded="false">Biểu đổ</a>
+											</li>
+											<li class="">
+												<a href="#tab_table" data-toggle="tab" aria-expanded="false">Bảng</a>
+											</li>
+										</ul>
+									</div>
+									<div class="panel-body">
+										<div class="tab-content pn br-n">
+											<div id="tab_map" class="tab-pane active">
+												<div class="row">
+													<div class="col-xs-12" style="height:450px;">
+														<div id="map" style="width:100%;height:100%"></div>
+													</div>
+												</div>
+											</div>
+											<div id="tab_chart" class="tab-pane">
+												<div class="row">
+													<div class="col-xs-12">
+														<span class="fs20" >Forecast by Year</span>
+														<label style="position:relative">
+															<span class="fs30 text-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="true">2015</span>
+															<ul class="dropdown-menu" role="menu" style="left:auto;right:0">
+																<li>
+																	<a href="#">2014</a>
+																</li>
+																<li>
+																	<a href="#">2015</a>
+																</li>
+																<li>
+																	<a href="#">2016</a>
+																</li>
+															</ul>
+														</label>
+													</div>
+													<div id="combo-chart" class="col-xs-12" style="min-height: 350px"></div>
+												</div>
+											</div>
+											<div id="tab_table" class="tab-pane">
+												<div class="row">
+													<div class="col-xs-12">
+														<span class="fs20" >Forecast by the Number</span>
+													</div>
+													<div class="col-xs-12" id="forecast_number">
+														<table class="table table-responsive table-hover" id="datatable">
+															<thead>
+																<tr>
+																	<th>Ngày 21-01-2016</th>
+																	<th>T</th>
+																	<th>Tx</th>
+																	<th>Tn</th>
+																	<th>U</th>
+																	<th>Un</th>
+																	<th>Po</th>
+																	<th>P</th>
+																	<th>Px</th>
+																	<th>Pn</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr><td>23:10</td><td>28.1</td><td>28.2</td><td>28.1</td><td>73.9</td><td>73</td><td>1008.6</td><td>1008.6</td><td>1008.6</td><td>1008.6</td></tr>
+																<tr><td>23:12</td><td>28.1</td><td>28.2</td><td>28.1</td><td>75.1</td><td>73.6</td><td>1008.6</td><td>1008.6</td><td>1008.6</td><td>1008.6</td></tr>
+																<tr><td>23:14</td><td>28.1</td><td>28.2</td><td>28.1</td><td>73.8</td><td>73.7</td><td>1008.6</td><td>1008.6</td><td>1008.6</td><td>1008.5</td></tr>
+																<tr><td>23:16</td><td>28.1</td><td>28.2</td><td>28.1</td><td>75.3</td><td>73.8</td><td>1008.6</td><td>1008.6</td><td>1008.6</td><td>1008.6</td></tr>
+																<tr><td>23:18</td><td>28.1</td><td>28.1</td><td>28</td><td>77.4</td><td>75.3</td><td>1008.6</td><td>1008.6</td><td>1008.6</td><td>1008.5</td></tr>
+																<tr><td>23:20</td><td>28</td><td>28.1</td><td>28</td><td>75.1</td><td>75.1</td><td>1008.5</td><td>1008.5</td><td>1008.6</td><td>1008.5</td></tr>
+																<tr><td>23:22</td><td>28.1</td><td>28.1</td><td>28</td><td>76.4</td><td>73.9</td><td>1008.5</td><td>1008.5</td><td>1008.5</td><td>1008.5</td></tr>
+																<tr><td>23:24</td><td>28</td><td>28.1</td><td>28</td><td>75.8</td><td>75.8</td><td>1008.4</td><td>1008.4</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:26</td><td>28</td><td>28</td><td>28</td><td>77.3</td><td>75.6</td><td>1008.5</td><td>1008.5</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:28</td><td>28</td><td>28</td><td>27.9</td><td>77.1</td><td>77.1</td><td>1008.4</td><td>1008.4</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:30</td><td>28</td><td>28.1</td><td>27.9</td><td>76.1</td><td>75.3</td><td>1008.5</td><td>1008.5</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:32</td><td>28.1</td><td>28.1</td><td>28</td><td>74.2</td><td>74.1</td><td>1008.5</td><td>1008.5</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:34</td><td>28.1</td><td>28.1</td><td>28</td><td>73.7</td><td>73.7</td><td>1008.5</td><td>1008.5</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:36</td><td>28.1</td><td>28.1</td><td>28.1</td><td>74.5</td><td>73.7</td><td>1008.5</td><td>1008.5</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:38</td><td>28</td><td>28.1</td><td>28</td><td>75.7</td><td>75</td><td>1008.5</td><td>1008.5</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:40</td><td>28</td><td>28</td><td>28</td><td>77.2</td><td>75.4</td><td>1008.5</td><td>1008.5</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:42</td><td>28</td><td>28</td><td>28</td><td>76.9</td><td>76.5</td><td>1008.4</td><td>1008.4</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:44</td><td>28</td><td>28.1</td><td>27.9</td><td>77.9</td><td>77</td><td>1008.4</td><td>1008.4</td><td>1008.5</td><td>1008.4</td></tr>
+																<tr><td>23:46</td><td>28.1</td><td>28.1</td><td>27.8</td><td>75.6</td><td>75.2</td><td>1008.4</td><td>1008.4</td><td>1008.4</td><td>1008.4</td></tr>
+																<tr><td>23:48</td><td>28</td><td>28.1</td><td>28</td><td>75.9</td><td>75.7</td><td>1008.4</td><td>1008.4</td><td>1008.4</td><td>1008.3</td></tr>
+																<tr><td>23:50</td><td>28</td><td>28.1</td><td>27.9</td><td>77.6</td><td>75.7</td><td>1008.3</td><td>1008.3</td><td>1008.4</td><td>1008.3</td></tr>
+																<tr><td>23:52</td><td>28.1</td><td>28.1</td><td>27.9</td><td>76.3</td><td>74.7</td><td>1008.3</td><td>1008.3</td><td>1008.4</td><td>1008.3</td></tr>
+																<tr><td>23:54</td><td>27.9</td><td>28.1</td><td>27.9</td><td>77.6</td><td>75.9</td><td>1008.3</td><td>1008.3</td><td>1008.4</td><td>1008.3</td></tr>
+																<tr><td>23:56</td><td>28</td><td>28</td><td>27.9</td><td>76.8</td><td>76.5</td><td>1008.3</td><td>1008.3</td><td>1008.3</td><td>1008.3</td></tr>
+																<tr><td>23:58</td><td>27.9</td><td>28</td><td>27.9</td><td>78.1</td><td>76.9</td><td>1008.3</td><td>1008.3</td><td>1008.3</td><td>1008.3</td></tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</section>
+
+		</div>
+
+		<script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="bower_components/highcharts/highcharts.js"></script>
+		<script type="text/javascript" src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="bower_components/datatables/media/js/dataTables.bootstrap.min.js"></script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+		<script>
+			var map, chart;
+			var position = {lat: 16.172472808397515, lng: 106.875};
+			function initMap() {
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: position,
+					draggable: false,
+					zoom: 5,
+					scrollwheel: false
+				});
+				map.addListener('click', function (pos) {
+					console.log(pos.latLng.lat(), pos.latLng.lng());
+				});
+				var styles = [
+					{
+						stylers: [
+							{hue: "#00ffe6"},
+							{saturation: -20}
+						]
+					}, {
+						featureType: "road",
+						elementType: "geometry",
+						stylers: [
+							{lightness: 100},
+							{visibility: "simplified"}
+						]
+					}, {
+						featureType: "road",
+						elementType: "labels",
+						stylers: [
+							{visibility: "off"}
+						]
+					}
+				];
+				map.setOptions({styles: styles});
+				map.data.loadGeoJson('data/countries.json');
+				map.data.addListener('mouseover', function (event) {
+					map.data.overrideStyle(event.feature, {fillColor: 'red'});
+				});
+				map.data.addListener('mouseout', function (event) {
+					map.data.overrideStyle(event.feature, {fillColor: 'black'});
+				});
+			}
+
+			function initChart() {
+				$('#combo-chart').highcharts({
+					title: false,
+					colors: ['#FF2221'],
+					chart: {
+						type: 'spline'
+					},
+					xAxis: {
+						categories: ['16/3', '17/3', '18/3', '19/3', '20/3', '21/3',
+							'22/3', '23/3', '24/3', '25/3', '26/3', '27/3']
+					},
+					yAxis: {
+						title: {
+							text: 'Temperature (°C)'
+						}
+					},
+					tooltip: {
+						valueSuffix: '°C'
+					},
+					series: [{
+							name: 'Tp Ho Chi Minh',
+							data: [25, 27, 35, 30, 34, 28, 29, 31, 33, 32, 36, 34]
+						}]
+				});
+				var idx = $('#combo-chart').data('highchartsChart');
+				console.log(idx);
+				chart = Highcharts.charts[idx];
+			}
+			$(document).ready(function () {
+				initMap();
+				$('a[href="#tab_map"]').click(function () {
+					setTimeout(function () {
+						google.maps.event.trigger(map, 'resize');
+					}, 500);
+				});
+				$('a[href="#tab_chart"]').click(function () {
+					setTimeout(function () {
+						initChart();
+					}, 500);
+				});
+				$('#datatable').dataTable({
+					searching: false,
+					bLengthChange: false,
+					iDisplayLength: 5
+				});
+
+			});
+
+		</script>
+	</body>
+</html>

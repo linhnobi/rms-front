@@ -1,0 +1,45 @@
+<header id="topbar">
+	<div class="topbar-left">
+		<div ncy-breadcrumb></div>
+	</div>
+	<div class="pull-right" go-home></div>
+</header>
+<section id="content">
+	<div class="row panel">
+		<div class="col-xs-12 panel-body">
+			<a class="btn btn-primary mb10" ui-sref="admin.station">Tạo trạm mới</a>
+			<table class="table table-striped table-hover dataTable no-footer" datatable="ng" dt-options="dtOptions">
+				<thead>
+					<tr class="success">
+						<th width="10%" style="width:10%;">Tên trạm</th>
+						<th width="10%">Mã trạm</th>
+						<th width="15%">Mã nhóm trạm</th>
+						<th width="15%"> Số sensor</th>
+						<th width="10%" style="width:10%;">Tọa độ</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="station in stations">
+						<td><p style="white-space: nowrap;width: 150px;overflow: hidden;text-overflow: ellipsis;   ">{{station.stationName}}</p></td>
+						<td>{{station.stationCode}}</td>
+						<td>{{station.groupCode}}</td>
+						<td>{{station.sensor}}</td>
+						<td width="10%"><p style="white-space: nowrap;width: 300px;overflow: hidden;text-overflow: ellipsis;   ">{{station.coordinates[1]}},{{station.coordinates[0]}}</p></td>
+						<td><a ui-sref="admin.station({id: station.stationCode})"><i class="fa fa-pencil"></i></a> &nbsp; 
+							<a href="#" 
+								 mwl-confirm 
+								 title="{{confirm.title}}" 
+								 message="{{confirm.message}}"
+								 confirm-text="{{confirm.confirmText}}"
+								 cancel-text="{{confirm.cancelText}}"
+								 placement="left"
+								 confirm-button-type="danger"
+								 on-confirm="deleteStation(station)"><i class="fa fa-trash-o"></i></a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>

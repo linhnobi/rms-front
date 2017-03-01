@@ -1,0 +1,32 @@
+<div class="navbar-branding dark bg-system">
+	<a class="navbar-brand" ui-sref="admin.users"> <b>Admin</b>
+	</a>
+	<!--	<span id="toggle_sidemenu_l" class="glyphicons glyphicons-show_lines"></span>-->
+
+</div>
+<ul class="nav navbar-nav navbar-right">
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle fw600 p15" data-toggle="dropdown" aria-expanded="true"> 
+			<img ng-src="{{user.avatar|| 'assets/img/avatars/avatar_male.jpg'}}" alt="avatar" class="mw30 br64 mr15">
+			<span>{{user.fullname|| user.username}}</span>
+			<span class="caret caret-tp hidden-xs"></span>
+		</a>
+		<ul class="dropdown-menu dropdown-persist pn w250 bg-white" role="menu">
+			<li class="of-h">
+				<a href="#" ui-sref="admin.profile" class="fw600 p12 animated animated-short fadeInUp">
+					Hồ sơ
+				</a>
+			</li>
+			<li class="br-t of-h">
+				<a href="#" ui-sref="admin.accountSetting" class="fw600 p12 animated animated-short fadeInUp">
+					Cài đặt tài khoản
+				</a>
+			</li>
+			<li class="br-t of-h">
+				<a href="#" ng-click="logout()" class="fw600 p12 animated animated-short fadeInDown">
+					Đăng Xuất
+				</a>
+			</li>
+		</ul>
+	</li>
+</ul>

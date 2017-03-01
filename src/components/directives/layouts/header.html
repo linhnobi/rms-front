@@ -1,0 +1,30 @@
+<header class="navbar bg-system">
+	<div>
+		<a class="navbar-brand" style="padding: 0" href="#" ui-sref="statistics"> <h1 style="margin-left: 10px;">LOGO</h1></a>
+	</div>
+	<ul class="nav navbar-nav navbar-right">
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle user-dropdown" data-toggle="dropdown"> <img ng-src="{{user.avatar || 'assets/img/avatars/avatar_male.jpg'}}" alt="avatar" class="mw30 br64 mr15">
+				<span>{{user.fullname || user.username}}</span>&nbsp;&nbsp;&nbsp;
+				<span class="caret caret-tp hidden-xs"></span>
+			</a>
+			<ul class="dropdown-menu dropdown-persist pn w250 bg-white" role="menu">
+				<li class="of-h">
+					<a href="#" ui-sref="profile" class="fw600 p12 animated animated-short fadeInUp">
+						Hồ sơ
+					</a>
+				</li>
+				<li class="br-t of-h">
+					<a href="#" ui-sref="accountSetting" class="fw600 p12 animated animated-short fadeInUp">
+						Cài đặt tài khoản
+					</a>
+				</li>
+				<li class="br-t of-h">
+					<a href="#" ng-click="logout()" class="fw600 p12 animated animated-short fadeInDown">
+						Đăng Xuất
+					</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</header>

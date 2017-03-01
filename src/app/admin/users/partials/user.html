@@ -1,0 +1,152 @@
+<header id="topbar">
+	<div class="topbar-left">
+		<div ncy-breadcrumb></div>
+	</div>
+	<div class="pull-right" go-home></div>
+</header>
+<section id="content">
+	<div class=" panel">
+		<div class="panel-body row">
+			<div class="col-xs-12 col-sm-10">
+				<form class="form-horizontal profile-form mb50 admin-form" name="form" ng-submit="submit(form)" novalidate>
+					<div class="form-group" ng-class="{'has-error':form.username.$dirty && form.username.$invalid}">
+						<label class="control-label col-sm-3">Tên truy cập <span class="required">*</span></label>
+						<div class="col-sm-8">
+							<input class="form-control" ng-required="true" name="username" ng-model="model.username">
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error':form.fullName.$dirty && form.fullName.$invalid}">
+						<label class="control-label col-sm-3">Tên thật <span class="required">*</span></label>
+						<div class="col-sm-8">
+							<input class="form-control" ng-required="true" name="fullName" ng-model="model.fullName">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="email">Giới tính <span class="required">*</span></label>
+						<div class="col-sm-8">
+							<div class="radio-custom radio-success mb5">
+								<input type="radio" id="male" value="male" name="sex" ng-model="model.sex">
+								<label for="male">Nam</label>
+							</div>
+							<div class="radio-custom radio-success mb5">
+								<input type="radio" id="female" value="female" name="sex"  ng-model="model.sex">
+								<label for="female">Nữ</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error': form.email.$dirty && form.email.$invalid}">
+						<label class="control-label col-sm-3" for="email">Địa chỉ email <span class="required">*</span></label>
+						<div class="col-sm-8">
+							<input type="email" 
+										 name="email" 
+										 ng-required="true"
+										 ng-pattern="/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/"
+										 ng-model="model.email" class="form-control" />
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error': form.password.$dirty && form.password.$invalid}">
+						<label class="control-label col-sm-3">Mật khẩu <span class="required">*</span></label>
+						<div class="col-sm-8">
+							<input type="password" name="password" ng-required="isNew()" ng-model="model.password" class="form-control" placeholder="*****"/>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error': form.confirmPassword.$dirty && form.confirmPassword.$invalid}">
+						<label class="control-label col-sm-3">Nhập lại mật khẩu <span class="required">*</span></label>
+						<div class="col-sm-8">
+							<input type="password" name="confirmPassword" ng-required="isNew()" ng-model="model.confirmPassword"  class="form-control" placeholder="*****">
+						</div>
+					</div>
+					<div class="form-group"  ng-class="{'has-error':form.phone.$dirty && form.phone.$invalid}">
+						<label class="control-label col-sm-3" for="email">Số điện thoại</label>
+						<div class="col-sm-8"> 
+							<input type="text" name="phone"
+										 ng-model="model.phone" 
+										 class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="email">Ngày tháng năm sinh</label>
+						<div class="col-sm-8">
+							<div class="input-group">
+								<input type="text" class="form-control" uib-datepicker-popup="dd-MM-yyyy" 
+											 ng-model="model.birthday"
+											 is-open="showPicker"
+											 datepicker-options="dateOptions"
+											 ng-focus="openDatePicker()"
+											 close-text="Close">
+								<span class="input-group-addon btn" ng-click="openDatePicker()"><i class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group"  ng-class="{'has-error':form.address.$dirty && form.address.$invalid}">
+						<label class="control-label col-sm-3" for="email">Địa chỉ</label>
+						<div class="col-sm-8"> 
+							<input type="text" name="address"
+										 ng-model="model.address" 
+										 class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-3" for="email">Chọn vai trò <span class="required">*</span></label>
+						<div class="col-sm-8"> 
+							<label ng-repeat="role in roles" class="block mt15 option option-primary" style="display: inline-block">
+                <input type="radio" ng-checked="hasRole(role.roleName)" name="role" ng-click="roleChanged($event, role)">
+                <span style="min-height: 0" class="checkbox"></span>{{role.roleName}}
+							</label>
+						</div>
+					</div>
+					<div class="form-group" ng-if="!hasRole('ADMIN') && !hasViewGroupStation(0)">
+						<label class="control-label col-sm-3" for="email">Chọn quyền truy cập</label>
+						<div class="col-sm-8"> 
+							<!--							<label ng-repeat="p in permissions" class="block mt15 option option-primary" style="display: inline-block">
+															<input type="radio" ng-checked="hasPermission(p)" ng-click="permissionChanged($event, p)" name="role">
+															<span style="min-height: 0" class="checkbox"></span>{{p.value}}
+														</label>-->
+							<ui-select style="width:100%" multiple ng-model="model.stationPermission" theme="select2">
+								<ui-select-match>{{$item.value}}</ui-select-match>
+								<ui-select-choices repeat="p in permissions | propsFilter: {value: $select.search}">
+									<div ng-bind-html="p.value"></div>
+								</ui-select-choices>
+							</ui-select>
+						</div>
+					</div>
+					<div class="form-group" ng-if="!hasRole('ADMIN')">
+						<label class="control-label col-sm-3" for="email">Chế độ xem Station<span class="required">*</span></label>
+						<div class="col-sm-8">
+							
+							<div class="radio-custom radio-success mb5">
+								<input type="radio" id="viewStation" value="0" name="viewMode" ng-model="model.viewMode">
+								<label for="viewStation">Trạm</label>
+							</div>
+							<div class="radio-custom radio-success mb5">
+								<input type="radio" id="viewGroupStation" value="1" name="viewMode"  ng-model="model.viewMode" >
+								<label for="viewGroupStation">Nhóm Trạm</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" ng-if="hasViewGroupStation(0) && !hasRole('ADMIN')">
+						<label class="control-label col-sm-3" for="email">Chọn nhóm trạm</label>
+						<div class="col-sm-8"> 
+							
+							<ui-select style="width:100%" multiple ng-model="model.groupStations" theme="select2">
+								<ui-select-match>{{$item.value}}</ui-select-match>
+								<ui-select-choices repeat="p in groupStations | propsFilter: {value: $select.search}">
+									<div ng-bind-html="p.value"></div>
+								</ui-select-choices>
+							</ui-select>
+					</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-3">&nbsp;</label>
+						<div class="col-sm-8">
+							<button class="btn btn-primary">{{loading ? 'Đang cập nhật...' : 'Lưu'}}</button>
+							&nbsp;
+							<a class="btn btn-default" ui-sref="admin.users">Quay lại</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm"></div>
+	</div>
+</section>

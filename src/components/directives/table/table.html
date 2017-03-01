@@ -1,0 +1,42 @@
+<div class="row">
+	<div class="col-xs-12" id="forecast_number" style="">
+		<div class="success" style="text-align:left;color: #3f9532;border-color: #afe1a8;">Ngày {{currentTime| timeFilter : 'DD-MM-YY'}}</div>
+		<table class="table table-hover" id="datatable" datatable="ng" dt-options="dtOptions">
+			<thead>
+				<tr class="success">
+					<th ng-if="noData"></th>
+					<th ng-repeat="c in columnName" style="text-align: center;">
+						{{c.name}}
+					</th>
+					<!-- <th>T</th>
+					<th>Tx</th>
+					<th>Tn</th>
+					<th>U</th>
+					<th>Un</th>
+					<th>Po</th>
+					<th>P</th>
+					<th>Px</th>
+					<th>Pn</th> -->
+				</tr>
+				<!-- 
+				<tr class="success" ng-repeat="info in columnData">
+					<th ng-if="$first" ng-repeat="d in info.data">
+						T
+					</th>
+					
+					
+				</tr> -->
+			</thead>
+			<tbody>
+				<tr ng-repeat="info in columnData">
+					
+					<td ng-repeat="d in info.data" style="text-align: center;">
+						{{d.value}}
+					</td>
+					
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

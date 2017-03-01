@@ -1,0 +1,118 @@
+<header id="topbar">
+	<div class="topbar-left">
+		<div ncy-breadcrumb></div>
+	</div>
+	<div class="pull-right" go-home></div>
+</header>
+<section id="content">
+	<div class="panel">
+		<div class="panel-heading">
+			<ul class="nav panel-tabs-border panel-tabs panel-tabs-left">
+				<li ng-class="{'active': isActive('server')}">
+					<a href ng-click="activeTab('server')" aria-expanded="false">Cấu hình máy chủ từ xa</a>
+				</li>
+				<li ng-class="{'active': isActive('cronjob')}">
+					<a href ng-click="activeTab('cronjob')" data-toggle="tab" aria-expanded="false">Lập lịch</a>
+				</li>
+				<li ng-class="{'active': isActive('power')}">
+					<a href ng-click="activeTab('power')" data-toggle="tab" aria-expanded="false">Bật/Tắt website</a>
+				</li>
+			</ul>
+		</div>
+		<div class="panel-body">
+			<div class="tab-content pn br-n">
+				<div id="tab2_1" class="tab-pane" ng-class="{'active': isActive('server')}">
+					<div class="row">
+						<form class="form-horizontal admin-form">
+							<div class="form-group">
+								<label class="control-label col-sm-1">IP/Host</label>
+								<div class="col-sm-3">
+									<input class="form-control" ng-model="remote.serverIp" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-1">Cổng</label>
+								<div class="col-sm-1">
+									<input class="form-control" ng-model="remote.serverPort" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-1">Tên đăng nhập</label>
+								<div class="col-sm-3">
+									<input class="form-control" ng-model="remote.dbUsername" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-1">Mật khẩu</label>
+								<div class="col-sm-3">
+									<input class="form-control" type="password" ng-model="remote.dbPassword" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label style="padding-top: 0;" class="control-label col-sm-1">Sync</label>
+								<div class="col-sm-2">
+									<input type="checkbox" ng-model="remote.onOffSync"> {{remote.onOffSync ? 'Bật' : 'Tắt'}}
+								</div>
+							</div>
+							<!-- <div class="form-group">
+								<label class="control-label col-sm-1">Thư mục</label>
+								<div class="col-sm-3">
+									<input class="form-control" ng-model="remote.remoteDirectory" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-1">File</label>
+								<div class="col-sm-3">
+									<input class="form-control" ng-model="remote.remoteFile" />
+								</div>
+							</div> -->
+							<div class="form-group">
+								<label class="control-label col-sm-1">&nbsp;</label>
+								<div class="col-sm-3">
+									<button ng-click="updateRemoteServer()" class="btn btn-primary">Cập nhật</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div id="tab2_2" class="tab-pane" ng-class="{'active': isActive('cronjob')}">
+					<div class="row">
+						<form class="form-horizontal admin-form">
+							<div class="form-group">
+								<label class="control-label col-sm-1">Thời gian</label>
+								<div class="col-sm-11">
+									<div id="cron"></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-1">Định dạng</label>
+								<div class="col-sm-2">
+									<input class="form-control" value="{{cronjob}}" ng-disabled="true">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-1">&nbsp;</label>
+								<div class="col-sm-3">
+									<button ng-click="updateCronjob()" class="btn btn-primary">Cập nhật</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div id="tab2_3" class="tab-pane" ng-class="{'active': isActive('power')}">
+					<form class="form-horizontal admin-form">
+						<div class="form-group">
+							<div class="col-xs-12">
+								<label class="block mt15 switch switch-primary">
+									<span style="display: inline-block;padding-left: 5px;position: relative;top: -7px;">Bật/Tắt Website</span>
+									<input type="checkbox" id="t4" ng-click="powerServer($event)" ng-model="power" ng-true-value="true" ng-false-value="false">
+									<label ng-click="powerServer()" data-on="BẬT" data-off="TẮT"></label>
+								</label>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

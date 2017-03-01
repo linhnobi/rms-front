@@ -1,0 +1,51 @@
+<div class="nano-content">
+	<!-- sidebar menu -->
+	<ul class="nav sidebar-menu">
+		<li class="sidebar-label pt20">DANH MỤC</li>
+		<li ng-class="{'active': isActive('user')}">
+			<a ui-sref="admin.users">
+				<span class="fa fa-users"></span>
+				<span class="sidebar-title">Quản lý tài khoản</span>
+			</a>
+		</li>
+		<li ng-class="{'active': isActive('station')}">
+			<a ui-sref="admin.stations">
+				<span class="fa fa-building"></span>
+				<span class="sidebar-title">Quản lý trạm</span>
+			</a>
+		</li>
+		<li ng-class="{'active': isActive('group-station')}">
+			<a ui-sref="admin.group-station">
+				<span class="fa fa-building"></span>
+				<span class="sidebar-title">Quản lý nhóm trạm</span>
+			</a>
+		</li>
+		<li ng-class="{'active': isActive('info')}">
+			<a ui-sref="admin.info">
+				<span class="fa fa-bar-chart"></span>
+				<span class="sidebar-title">Dữ liệu</span>
+			</a>
+		</li>
+		<li ng-class="{'active': isActive('allAccess') || isActive('logged')}">
+			<a class="accordion-togglen" href="#" ng-class="{'menu-open' : subAccess}" ng-click="showSubAccess()">
+				<span class="glyphicons glyphicons-stopwatch"></span>
+				<span class="sidebar-title">Quản lý truy cập</span>
+				<span class="caret"></span>
+			</a>
+			<ul class="nav sub-nav">
+				<li ng-class="{'active': isActive('logged')}">
+					<a class="accordion-toggle"ui-sref="admin.accessLogged">Tài khoải đang đăng nhập</a>
+				</li>
+				<li ng-class="{'active': isActive('allAccess')}">
+					<a class="accordion-toggle" ui-sref="admin.accessAll">Lịch sử truy cập</a>
+				</li>
+			</ul>
+		</li>
+		<li ng-class="{'active': isActive('config')}">
+			<a ui-sref="admin.config">
+				<span class="fa fa-gears"></span>
+				<span class="sidebar-title">Thiết lập</span>
+			</a>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,22 @@
+<div class="panel panel-system col-xs-12 col-md-8 col-md-offset-2">
+	<div class="panel-heading text-center">
+		<div class="avatar">
+			<img src="{{user.avatar|| 'assets/img/avatars/avatar_male.jpg'}}" />
+			<div ng-if="allowChange" ngf-select="upload($file)" ng-model="file" name="file" ngf-pattern="'image/*'"
+					 ngf-accept="'image/*'" ngf-max-size="3MB" ngf-min-height="100" 
+					 ngf-resize="{width: 128, height: 128}"></div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div>
+			<span class="panel-title"><b>Đăng nhập gần đây</b></span>
+			<br>
+			<span>{{user.loggedDate| fromNow }}</span>
+		</div>
+		<div>
+			<span class="panel-title"><b>Ngày tạo tài khoản</b></span>
+			<br>
+			<span>{{user.createdAt| timeFilter: 'DD-MM-YYYY'}}</span>
+		</div>
+	</div>
+</div>
