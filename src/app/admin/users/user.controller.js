@@ -56,7 +56,12 @@ angular.module('rmsSystem').controller('UsersCtrl', function ($scope, users, Adm
 	};
 }).controller('UserCtrl', function ($scope, $rootScope, user, roles, permissions, groupStations,  Admin, growl, $state, Auth) {
 	//$scope.model = angular.copy(user);
-	$scope.model = angular.copy($scope.user);
+	if (user.id){
+		$scope.model = angular.copy(user);
+	}else {
+		$scope.model = {};
+		$scope.model.viewMode = "0"; 
+	}
 	$scope.model.sex = $scope.model.sex || 'male';
 	
 
