@@ -1,7 +1,0 @@
-/nbproject
-/node_modules
-/src/bower_components
-/*.log
-/.tmp
-/jshint-report.html
-/json.js
