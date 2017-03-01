@@ -9,7 +9,6 @@
 3. Go to /dist folder & install bower components
  
         bower install
-	bower install angular-datatables#0.5.6
 
 4. Install npm package
 			
@@ -18,7 +17,8 @@
 5.  Run
 
 		npm start
-
+-- Run error check angular-datatables support angular 1 ??
+	bower install angular-datatables#0.5.6
 
 6. Open [http://localhost:3000](http://localhost:3000) 
 
