@@ -60,7 +60,7 @@ angular.module('rmsSystem').controller('UsersCtrl', function ($scope, users, Adm
 		$scope.model = angular.copy(user);
 	}else {
 		$scope.model = {};
-		$scope.model.viewMode = "0";
+		$scope.model.viewMode = "0"; 
 	}
 
 	$scope.model.sex = $scope.model.sex || 'male';
