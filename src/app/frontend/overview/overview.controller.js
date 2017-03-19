@@ -1,33 +1,38 @@
 'use strict';
 
-angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder) {
+angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview, Station, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder) {
     $scope.momentDate = moment().format('DD-MM-YYYY');
     $scope.dataStation = [];
     $scope.dataRainAllRow = [];
     $scope.dtColumns = [];
     $scope.count = 0;
-    console.log('$scope.momentDate', $scope.momentDate);
-    Overview.getRainAll(1050, '11-3-2017', 1, 2).then(function(response) {
-        $scope.dataRainAll = response.data;
-        $scope.dataRainAll.rows.forEach(function(element) {
-            $scope.dataRainAllRow.push(element.data);
-        });
-        console.log('$scope.dataRainAllRow', $scope.dataRainAllRow);
-    });
+    //console.log('$scope.momentDate', $scope.momentDate);
+
 
     moment.createFromInputFallback = function(config) {
         config._d = new Date(NaN);
         console.log(config._d);
     }
 
+    // Get list trạm
+    Station.get().then(function(response) {
+        $scope.listStation = response.data;
+        $scope.station.stationCode = $scope.listStation[0].stationCode;
+        // console.log('listStation', $scope.listStation);
+        // console.log('station', $scope.station);
+    });
 
-    $scope.$watchGroup(['momentDate'], function() {
-        console.log('momentDate', $scope.momentDate);
+    $scope.changeStation = function() {
+        console.log('changeStation', $scope.station);
+    }
+
+    $scope.$watchGroup(['momentDate', 'station.stationCode'], function() {
+        //console.log('momentDate', $scope.momentDate);
         Overview.getRainDay($scope.momentDate, 10).then(function(response) {
             $scope.dataRainDay = response.data;
 
             $scope.dataRainDay.colHeader.forEach((element) => {
-                console.log(element);
+                //console.log(element);
                 var a = DTColumnBuilder.newColumn(element).withTitle(element);
                 $scope.dtColumns.push(a);
             })
@@ -53,6 +58,71 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
             $scope.count++;
             $scope.momentDate = moment().add($scope.count, 'days').format('DD-MM-YYYY');
         }
+
+
+
+        console.log('station $watchGroup', $scope.station.stationCode);
+        // console.log('momentDate', $scope.momentDate);
+        // console.log('$scope.station.stationCode', $scope.station.stationCode);
+        Overview.getRainAll(1036, $scope.momentDate, 1, 2).then(function(response) {
+            if (response) {
+                $scope.dataRainAll = response.data;
+                $scope.dataRainAll.rows.forEach(function(element) {
+                    $scope.dataRainAllRow.push(element.data);
+                });
+                var sortedData = response.data.rows;
+                $scope.data = $scope.dataRainAll.rows;
+                console.log('data chart', $scope.data);
+                // if (sensor == 8) {
+                //     $scope.dataTableHour8 = response.data;
+                //     $scope.dataTableHour24 = [];
+                //bindData8ChartAndGrid(sortedData);
+                // } else {
+                //     $scope.dataTableHour24 = response.data;
+                //     $scope.dataTableHour8 = [];
+                //     bindData24ChartAndGrid(sortedData);
+                // }
+            }
+
+            //console.log('$scope.dataRainAllRow', $scope.dataRainAllRow);
+        });
+
+        // Vẽ Chart
+
+        $scope.labels = [];
+        for (var i = 0; i <= 23; i++) {
+            $scope.labels.push(i + ":00");
+        }
+
+        //$scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+        $scope.series = ['Series A', 'Series B'];
+        //$scope.data = $scope.dataRainAll.rows;
+        // [
+        //     [65, 59, 80, 81, 56, 55, 40],
+        //     [28, 48, 40, 19, 86, 27, 90]
+        // ];
+        $scope.onClick = function(points, evt) {
+            console.log(points, evt);
+        };
+        $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+        $scope.options = {
+            scales: {
+                yAxes: [{
+                        id: 'y-axis-1',
+                        type: 'linear',
+                        display: true,
+                        position: 'left'
+                    },
+                    {
+                        id: 'y-axis-2',
+                        type: 'linear',
+                        display: true,
+                        position: 'right'
+                    }
+                ]
+            }
+        };
+
     });
 
     // End $watchGroup
@@ -60,6 +130,8 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
     console.log('$scope.dtColumns', $scope.dtColumns);
 
     //$scope.dtColumnDefs = [];
+
+
 
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withDOM("<'row'<'col-sm-9'p><'col-sm-3'B>>" + "<'row wp-table'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'l>>")
@@ -99,4 +171,8 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
             [10, 25, 50, 100, "All"]
         ])
         .withOption('autoWidth', false);
+
+
+
+
 });
