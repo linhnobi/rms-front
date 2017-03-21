@@ -25,12 +25,12 @@
                 </div>
             </form>
         </div>
-        <div class="mb20 mt20" style="height: 500px; overflow-y: scroll">
+        <div class="mb20 mt20">
             <!--datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" -->
-            <table id="" class="table table-striped table-bordered table-scroll">
+            <table id="" class="table table-striped table-bordered table-scroll" datatable="ng" dt-columns="dtColumnsRainDay" dt-options="dtOptions" dt-instance="dtInstances">
                 <thead>
                     <tr>
-                        <th ng-repeat="col in dataRainDay.colHeader ">{{col}}</th>
+                        <th ng-repeat="col in dataRainDay.colHeader track by $index">{{col}}</th>
                     </tr>
                 </thead>
                 <tbody ng-repeat="item in dataStation track by $index">
@@ -49,8 +49,10 @@
                             <label class="button btn-primary wf-bg-primary">Chọn trạm</label>
                         </div>
                         <div class="col-lg-2">
-                            <select class="form-control" ng-init="station.stationCode = listStation[0].stationCode" ng-options="item.stationCode as item.stationName for item in listStation" ng-model="station.stationCode" ng-change="changeStation()">
-                                <option>--</option>
+                            aaaa {{listStation[0].key}}
+                            <!--ng-init="station.stationCode = listStation[0].stationCode" station.stationCode-->
+                            <select class="form-control" ng-init="station = listStation[0].value" ng-options="item.key as item.value for item in listStation" ng-model="station" ng-change="changeStation()">
+                                {{listStation[0].key}}
                             </select>
                         </div>
                     </div>
@@ -58,19 +60,13 @@
             </form>
         </div>
 
-        <div class="mb20 mt20">
-
+        <!--<div class="mb20 mt20">
             <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" chart-dataset-override="datasetOverride" chart-click="onClick">
 </canvas
-                <p style="text-align: center" ng-show="!station">Chọn trạm để xem thông tin</p>
-            
-        </div>
-
-
-
-        <div class="mb20 mt20" style="height: 500px; overflow-y: scroll">
+        </div>-->
+        <div class="mb20 mt20">
             <!--datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" -->
-            <table id="" class="table table-striped table-bordered">
+            <table id="" class="table table-striped table-bordered" dt-columns="dtColumnsRainAll">
                 <thead>
                     <tr>
                         <th ng-repeat="col in dataRainAll.colHeader track by $index">{{col}}</th>

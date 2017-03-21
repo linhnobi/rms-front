@@ -29,11 +29,11 @@ angular.module('rmsSystem', [
     'ui.grid.autoResize',
     'moment-picker',
     'datatables.buttons',
-    'datatables.bootstrap'//,
+    'datatables.bootstrap' //,
     //'datatables.scroller'
 
-]).config(function ($urlRouterProvider, $locationProvider, $httpProvider, growlProvider, cfpLoadingBarProvider) {
-    $urlRouterProvider.otherwise('/statistics');
+]).config(function($urlRouterProvider, $locationProvider, $httpProvider, growlProvider, cfpLoadingBarProvider) {
+    $urlRouterProvider.otherwise('/overview');
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
@@ -45,10 +45,10 @@ angular.module('rmsSystem', [
 
     cfpLoadingBarProvider.includeSpinner = true;
     cfpLoadingBarProvider.includeBar = true;
-}).factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
+}).factory('authInterceptor', function($rootScope, $q, $cookieStore, $location) {
     return {
         // Add authorization token to headers
-        request: function (config) {
+        request: function(config) {
             config.headers = config.headers || {};
             if ($cookieStore.get('localData') && $cookieStore.get('localData')['token']) {
                 config.headers['X-Auth-Token'] = $cookieStore.get('localData')['token'];
@@ -56,7 +56,7 @@ angular.module('rmsSystem', [
             return config;
         },
         // Intercept 401s and redirect you to login
-        responseError: function (response) {
+        responseError: function(response) {
             if (response.status === 401) {
                 //$cookieStore.remove('localData');
                 if (/^\/admin(.)*/.test($location.$$path)) {
@@ -65,20 +65,19 @@ angular.module('rmsSystem', [
                     $location.path('/auth/login');
                 }
                 return $q.reject(response);
-            }
-            else {
+            } else {
                 return $q.reject(response);
             }
         }
     };
-}).run(function ($rootScope, $location, Auth, $cookieStore) {
+}).run(function($rootScope, $location, Auth, $cookieStore) {
     //cfpLoadingBar.start();
     // Redirect to login if route requires auth and you're not logged in
-    $rootScope.$on('$stateChangeStart', function (event, next) {
+    $rootScope.$on('$stateChangeStart', function(event, next) {
         $rootScope.adminLogin = (next.name === 'admin.login' || next.name === 'admin') ? true : false;
         $rootScope.adminSide = (/^admin\.(.)+/).test(next.name);
         if (next.authenticate) {
-            Auth.isLoggedInAsync(function (loggedIn) {
+            Auth.isLoggedInAsync(function(loggedIn) {
                 var authenticated = true;
                 if (!loggedIn || (loggedIn && !loggedIn.roles)) {
                     authenticated = false;
