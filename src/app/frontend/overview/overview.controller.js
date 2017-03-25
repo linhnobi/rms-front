@@ -7,22 +7,13 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
     $scope.dtColumnsRainDay = [];
     $scope.dtColumnsRainAll = [];
     $scope.dtInstances = [];
-    $scope.count = 0;
-    //console.log('$scope.momentDate', $scope.momentDate);
-
+    $scope.countNext = 0;
+    $scope.countPrev = 0;
 
     moment.createFromInputFallback = function(config) {
         config._d = new Date(NaN);
         console.log(config._d);
     }
-
-    // Get list trạm
-    Station.get().then(function(response) {
-        //$scope.listStation = response.data;
-        //$scope.station.stationCode = $scope.listStation[0].stationCode;
-        // console.log('listStation', $scope.listStation);
-        // console.log('station', $scope.station);
-    });
 
     $scope.changeStation = function() {
         console.log('changeStation', $scope.station);
@@ -35,14 +26,20 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
     User.getProfile(userId).then(function(response) {
         $scope.userinfo = response.data;
         $scope.listStation = response.data.stationPermission;
-        console.log('$scope.listStation', $scope.listStation);
+        $scope.station = $scope.listStation[0].key;
     });
 
+    $scope.$watchGroup(['momentDate', 'station'], function() {
+        $scope.prevDay = function() {
+            $scope.countPrev++;
+            $scope.momentDate = moment().subtract($scope.countPrev, 'days').format('DD-MM-YYYY');
+        }
 
+        $scope.nextDay = function() {
+            $scope.countNext++;
+            $scope.momentDate = moment().add($scope.countNext, 'days').format('DD-MM-YYYY');
+        }
 
-
-    $scope.$watchGroup(['momentDate', 'station.stationCode'], function() {
-        //console.log('momentDate', $scope.momentDate);
         Overview.getRainDay($scope.momentDate, 10).then(function(response) {
             $scope.dataRainDay = response.data;
 
@@ -54,56 +51,27 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
             $scope.dataRainDay.rows.forEach(function(element) {
                 $scope.dataStation.push(element.data);
             });
-            $scope.dtInstances = [];
+
         });
 
-        $scope.prevDay = function() {
-            //console.log('$scope.momentDate', $scope.momentDate.toString());
-            $scope.count++;
-            //var a = $scope.momentDate.toString();
-            // var a = moment($scope.momentDate.toString());
-            // var b = a.add(1, 'days');
-            // console.log('bbbbb', b);
-            //console.log('test 111', moment($scope.momentDate));
-            //console.log('test', moment($scope.momentDate).add(1, 'days').format('DD-MM-YYYY'));
-            $scope.momentDate = moment().subtract($scope.count, 'days').format('DD-MM-YYYY');
+        if ($scope.station) {
+            Overview.getRainAll($scope.station, $scope.momentDate, 1, 2).then(function(response) {
+                if (response && response.data) {
+                    $scope.dataRainAll = response.data;
+                    $scope.dataRainAll.rows.forEach(function(element) {
+                        $scope.dataRainAllRow.push(element.data);
+                    });
+
+                    $scope.dataRainAll.colHeader.forEach((element) => {
+                        var colHeader = DTColumnBuilder.newColumn(element).withTitle(element);
+                        $scope.dtColumnsRainAll.push(colHeader);
+                    })
+
+                } else {
+
+                }
+            });
         }
-
-        $scope.nextDay = function() {
-            $scope.count++;
-            $scope.momentDate = moment().add($scope.count, 'days').format('DD-MM-YYYY');
-        }
-
-
-
-        // console.log('station $watchGroup', $scope.station.stationCode);
-        // console.log('momentDate', $scope.momentDate);
-        // console.log('$scope.station.stationCode', $scope.station.stationCode);
-        Overview.getRainAll(1050, $scope.momentDate, 1, 2).then(function(response) {
-            if (response) {
-                $scope.dataRainAll = response.data;
-                $scope.dataRainAll.rows.forEach(function(element) {
-                    $scope.dataRainAllRow.push(element.data);
-                });
-                $scope.dataRainAll.colHeader.forEach((element) => {
-                    var colHeader = DTColumnBuilder.newColumn(element).withTitle(element);
-                    $scope.dtColumnsRainAll.push(colHeader);
-                })
-                $scope.dtInstances = [];
-                // if (sensor == 8) {
-                //     $scope.dataTableHour8 = response.data;
-                //     $scope.dataTableHour24 = [];
-                //bindData8ChartAndGrid(sortedData);
-                // } else {
-                //     $scope.dataTableHour24 = response.data;
-                //     $scope.dataTableHour8 = [];
-                //     bindData24ChartAndGrid(sortedData);
-                // }
-            }
-
-            //console.log('$scope.dataRainAllRow', $scope.dataRainAllRow);
-        });
-
         // Vẽ Chart
 
         $scope.labels = [];
@@ -144,12 +112,6 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
 
     // End $watchGroup
 
-    console.log('$scope.dtColumns', $scope.dtColumns);
-
-    //$scope.dtColumnDefs = [];
-
-
-
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withDOM("<'row'<'col-sm-9'p><'col-sm-3'B>>" + "<'row wp-table'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'l>>")
         .withPaginationType('simple_numbers')
@@ -188,8 +150,6 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
             [10, 25, 50, 100, "All"]
         ])
         .withOption('autoWidth', false);
-
-
 
 
 });
