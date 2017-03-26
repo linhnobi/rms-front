@@ -41,12 +41,14 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
         }
 
         Overview.getRainDay($scope.momentDate, 10).then(function(response) {
+            $scope.dataRainDay = [];
+            $scope.dataStation = [];
             $scope.dataRainDay = response.data;
 
-            $scope.dataRainDay.colHeader.forEach((element) => {
-                var colHeader = DTColumnBuilder.newColumn(element).withTitle(element);
-                $scope.dtColumnsRainDay.push(colHeader);
-            })
+            // $scope.dataRainDay.colHeader.forEach((element) => {
+            //     var colHeader = DTColumnBuilder.newColumn(element).withTitle(element);
+            //     $scope.dtColumnsRainDay.push(colHeader);
+            // })
 
             $scope.dataRainDay.rows.forEach(function(element) {
                 $scope.dataStation.push(element.data);
@@ -56,16 +58,18 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
 
         if ($scope.station) {
             Overview.getRainAll($scope.station, $scope.momentDate, 1, 2).then(function(response) {
+                $scope.dataRainAll = [];
+                $scope.dataRainAllRow = [];
                 if (response && response.data) {
                     $scope.dataRainAll = response.data;
                     $scope.dataRainAll.rows.forEach(function(element) {
                         $scope.dataRainAllRow.push(element.data);
                     });
 
-                    $scope.dataRainAll.colHeader.forEach((element) => {
-                        var colHeader = DTColumnBuilder.newColumn(element).withTitle(element);
-                        $scope.dtColumnsRainAll.push(colHeader);
-                    })
+                    // $scope.dataRainAll.colHeader.forEach((element) => {
+                    //     var colHeader = DTColumnBuilder.newColumn(element).withTitle(element);
+                    //     $scope.dtColumnsRainAll.push(colHeader);
+                    // })
 
                 } else {
 
