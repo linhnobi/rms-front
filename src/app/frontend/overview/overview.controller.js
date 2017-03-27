@@ -9,7 +9,9 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
     $scope.dtInstances = [];
     $scope.countNext = 0;
     $scope.countPrev = 0;
-
+    $scope.dataChart8 = [];
+    $scope.waterdatasetOverride = [];
+    $scope.sensor;
     moment.createFromInputFallback = function(config) {
         config._d = new Date(NaN);
         console.log(config._d);
@@ -29,6 +31,53 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
         $scope.station = $scope.listStation[0].key;
     });
 
+    /**
+     *  Setup label Chart
+     */
+    var labels = [];
+    for (var hour = 0; hour < 720; hour++) {
+        labels.push(moment().startOf('day').minutes(hour * 2).format('H:mm'));
+    }
+    $scope.datasetOverride = [];
+    $scope.waterColors = [];
+    $scope.waterChartOptions = {
+        scales: {
+            yAxes: [{
+                    id: 'y-axis-1',
+                    type: 'linear',
+                    display: true,
+                    position: 'left'
+                },
+                {
+                    id: 'y-axis-2',
+                    type: 'linear',
+                    display: true,
+                    position: 'right'
+                }
+            ],
+            xAxes: [{
+                type: 'time',
+                display: true,
+                time: {
+                    format: "HH:mm",
+                    unit: 'hour',
+                    unitStepSize: 1,
+                    displayFormats: {
+                        'minute': 'HH:mm',
+                        'hour': 'HH:mm'
+                    },
+                    max: moment("2015-01-01 23:58").format('H:mm')
+                },
+                gridLines: {
+                    display: false,
+                },
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+
     $scope.$watchGroup(['momentDate', 'station'], function() {
         $scope.prevDay = function() {
             $scope.countPrev++;
@@ -45,11 +94,6 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
             $scope.dataStation = [];
             $scope.dataRainDay = response.data;
 
-            // $scope.dataRainDay.colHeader.forEach((element) => {
-            //     var colHeader = DTColumnBuilder.newColumn(element).withTitle(element);
-            //     $scope.dtColumnsRainDay.push(colHeader);
-            // })
-
             $scope.dataRainDay.rows.forEach(function(element) {
                 $scope.dataStation.push(element.data);
             });
@@ -58,59 +102,82 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
 
         if ($scope.station) {
             Overview.getRainAll($scope.station, $scope.momentDate, 1, 2).then(function(response) {
+                var rain8 = [];
+                var water8 = [];
+                var temperature24 = [];
+                var humidity24 = [];
+                var rain24 = [];
+                var pressure24 = [];
+                $scope.data24Rain = [];
+                $scope.data24Pressure = [];
+                $scope.data24Temperature = [];
                 $scope.dataRainAll = [];
                 $scope.dataRainAllRow = [];
+                $scope.listStation.forEach(function(_station) {
+                    if ($scope.station === _station.key) {
+                        $scope.sensor = _station.station.sensor;
+                    }
+                });
                 if (response && response.data) {
                     $scope.dataRainAll = response.data;
                     $scope.dataRainAll.rows.forEach(function(element) {
                         $scope.dataRainAllRow.push(element.data);
+                        if ($scope.sensor == 8) {
+                            rain8.push(element.data[2]);
+                            water8.push(element.data[3]);
+                        } else if ($scope.sensor == 24) {
+                            rain24.push(element.data[2]);
+                            pressure24.push(element.data[8]);
+                            temperature24.push(element.data[3]);
+                            humidity24.push(element.data[6]);
+                        }
+
                     });
 
-                    // $scope.dataRainAll.colHeader.forEach((element) => {
-                    //     var colHeader = DTColumnBuilder.newColumn(element).withTitle(element);
-                    //     $scope.dtColumnsRainAll.push(colHeader);
-                    // })
+                    $scope.dataChart8.push(rain8);
+                    $scope.dataChart8.push(water8);
+                    $scope.data24Temperature.push(temperature24);
+                    $scope.data24Temperature.push(humidity24);
+                    $scope.data24Rain.push(rain24);
+                    $scope.data24Pressure.push(pressure24);
 
                 } else {
 
                 }
             });
         }
-        // Vẽ Chart
+        // Vẽ Chart 8 sensor
 
-        $scope.labels = [];
-        for (var i = 0; i <= 23; i++) {
-            $scope.labels.push(i + ":00");
-        }
+        $scope.waterSeries = ['Lượng mưa', 'Mực nước'];
+        $scope.data_Chart8 = $scope.dataChart8;
 
-        //$scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-        $scope.series = ['Series A', 'Series B'];
-        //$scope.data = $scope.dataRainAll.rows;
-        // [
-        //     [65, 59, 80, 81, 56, 55, 40],
-        //     [28, 48, 40, 19, 86, 27, 90]
-        // ];
         $scope.onClick = function(points, evt) {
             console.log(points, evt);
         };
-        $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
-        $scope.options = {
-            scales: {
-                yAxes: [{
-                        id: 'y-axis-1',
-                        type: 'linear',
-                        display: true,
-                        position: 'left'
-                    },
-                    {
-                        id: 'y-axis-2',
-                        type: 'linear',
-                        display: true,
-                        position: 'right'
-                    }
-                ]
-            }
-        };
+
+        $scope.ChartLabels = labels;
+        $scope.waterColors = ['#3bff11', '#45b7cd'];
+
+
+        $scope.waterdatasetOverride.push({
+            yAxisID: 'y-axis-1',
+            label: "Lượng Mưa (mm)",
+            borderWidth: 1,
+            backgroundColor: "rgba(255,255,255,0)",
+            type: 'line'
+        });
+
+        $scope.waterdatasetOverride.push({
+            yAxisID: 'y-axis-2',
+            label: "Mực nước (m)",
+            borderWidth: 1,
+            backgroundColor: "rgba(255,255,255,0)",
+            type: 'line'
+        });
+
+
+
+
 
     });
 
@@ -154,6 +221,150 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
             [10, 25, 50, 100, "All"]
         ])
         .withOption('autoWidth', false);
+
+    // Vẽ Chart 24 sensor Lượng mưa
+    $scope.series24Rain = ['Lượng mưa(mm)'];
+    $scope.options24Rain = {
+        scales: {
+            yAxes: [{
+                id: 'y-axis-1',
+                type: 'linear',
+                display: true,
+                position: 'left'
+            }],
+            xAxes: [{
+                type: 'time',
+                display: true,
+                time: {
+                    format: "HH:mm",
+                    unit: 'hour',
+                    unitStepSize: 1,
+                    displayFormats: {
+                        'minute': 'HH:mm',
+                        'hour': 'HH:mm'
+                    },
+                    max: moment("2015-01-01 23:58").format('H:mm')
+                },
+                gridLines: {
+                    display: false,
+                },
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+
+    $scope.datasetOverride24Rain = [{
+        yAxisID: 'y-axis-1',
+        label: "Lượng Mưa (mm)",
+        borderWidth: 1,
+        backgroundColor: "rgba(255,255,255,0)",
+        type: 'line'
+    }];
+    $scope.colors24Rain = ['#45b7cd'];
+
+
+
+
+    $scope.series24Temperature = ['Nhiệt độ', 'Độ ẩm'];
+    $scope.colors24Temperature = ['#FDB45C', '#4D5360']
+    $scope.options24Temperature = {
+        scales: {
+            yAxes: [{
+                    id: 'y-axis-1',
+                    type: 'linear',
+                    display: true,
+                    position: 'left'
+                }, {
+                    id: 'y-axis-2',
+                    type: 'linear',
+                    display: true,
+                    position: 'right'
+                }
+
+            ],
+            xAxes: [{
+                type: 'time',
+                display: true,
+                time: {
+                    format: "HH:mm",
+                    unit: 'hour',
+                    unitStepSize: 1,
+                    displayFormats: {
+                        'minute': 'HH:mm',
+                        'hour': 'HH:mm'
+                    },
+                    max: moment("2015-01-01 23:58").format('H:mm')
+                },
+                gridLines: {
+                    display: false,
+                },
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+    $scope.datasetOverride24Temperature = [{
+            yAxisID: 'y-axis-1',
+            label: "Nhiêt độ",
+            borderWidth: 1,
+            backgroundColor: "rgba(255,255,255,0)",
+            type: 'line'
+        },
+        {
+            yAxisID: 'y-axis-2',
+            label: "Độ ẩm",
+            borderWidth: 1,
+            backgroundColor: "rgba(255,255,255,0)",
+            type: 'line'
+        }
+    ];
+
+
+
+
+    $scope.series24Pressure = ['Áp xuất khí quyển'];
+    $scope.colors24Pressure = ['#46BFBD'];
+    $scope.options24Pressure = {
+        scales: {
+            yAxes: [{
+                id: 'y-axis-1',
+                type: 'linear',
+                display: true,
+                position: 'left'
+            }],
+            xAxes: [{
+                type: 'time',
+                display: true,
+                time: {
+                    format: "HH:mm",
+                    unit: 'hour',
+                    unitStepSize: 1,
+                    displayFormats: {
+                        'minute': 'HH:mm',
+                        'hour': 'HH:mm'
+                    },
+                    max: moment("2015-01-01 23:58").format('H:mm')
+                },
+                gridLines: {
+                    display: false,
+                },
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+    $scope.datasetOverride24Pressure = [{
+        yAxisID: 'y-axis-1',
+        label: "Áp suất",
+        borderWidth: 1,
+        backgroundColor: "rgba(255,255,255,0)",
+        type: 'line'
+    }];
+
 
 
 });

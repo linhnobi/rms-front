@@ -72,11 +72,27 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="mb20 mt20" style="width: 100%; height: 40%" ng-if="sensor == 8">
+            <p>Biểu đồ lượng mưa</p>
+            <canvas id="line" class="chart chart-line" chart-data="data_Chart8" chart-labels="ChartLabels" chart-series="waterSeries" chart-colors="waterColors" chart-options="waterChartOptions" chart-click="onClick" chart-dataset-override=""></canvas>
+        </div>
+
+        <div class="mb20 mt20" style="width: 100%; height: 40%" ng-if="sensor == 24">
+            <p>Biểu đồ lượng mưa</p>
+            <canvas id="line" class="chart chart-line" chart-data="data24Rain" chart-labels="ChartLabels" chart-series="series24Rain" chart-options="options24Rain" chart-dataset-override="datasetOverride24Rain" chart-colors="colors24Rain" chart-click="onClick"></canvas>
+        </div>
+
+        <div class="mb20 mt20" style="width: 100%; height: 40%" ng-if="sensor == 24">
+            <p>Biểu đồ nhiệt đô, độ ẩm</p>
+            <canvas id="line" class="chart chart-line" chart-data="data24Temperature" chart-labels="ChartLabels" chart-series="series24Temperature" chart-options="options24Temperature" chart-dataset-override="datasetOverride24Temperature" chart-colors="colors24Temperature"
+                chart-click="onClick"></canvas>
+        </div>
+
+        <div class="mb20 mt20" style="width: 100%; height: 40%" ng-if="sensor == 24">
+            <p>Biểu đồ áp suât khí quyển</p>
+            <canvas id="line" class="chart chart-line" chart-data="data24Pressure" chart-labels="ChartLabels" chart-series="series24Pressure" chart-options="options24Pressure" chart-dataset-override="datasetOverride24Pressure" chart-colors="colors24Pressure" chart-click="onClick"></canvas>
+        </div>
+
     </section>
 </section>
-
-
-<!--<div class="mb20 mt20 ">
-            <canvas id="line " class="chart chart-line " chart-data="data " chart-labels="labels " chart-series="series " chart-options="options " chart-dataset-override="datasetOverride " chart-click="onClick ">
-</canvas
-        </div>-->
