@@ -123,13 +123,13 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                     $scope.dataRainAll.rows.forEach(function(element) {
                         $scope.dataRainAllRow.push(element.data);
                         if ($scope.sensor == 8) {
-                            rain8.push(element.data[2]);
-                            water8.push(element.data[3]);
+                            rain8.push(validateValue(element.data[2], true));
+                            water8.push(validateValue(element.data[3], true));
                         } else if ($scope.sensor == 24) {
-                            rain24.push(element.data[2]);
-                            pressure24.push(element.data[8]);
-                            temperature24.push(element.data[3]);
-                            humidity24.push(element.data[6]);
+                            rain24.push(validateValue(element.data[2], true));
+                            pressure24.push(validateValue(element.data[8], true));
+                            temperature24.push(validateValue(element.data[3], true));
+                            humidity24.push(validateValue(element.data[6], true));
                         }
 
                     });
@@ -140,6 +140,7 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                     $scope.data24Temperature.push(humidity24);
                     $scope.data24Rain.push(rain24);
                     $scope.data24Pressure.push(pressure24);
+                    console.log('$scope.data24Rain', $scope.data24Rain);
 
                 } else {
 
@@ -365,6 +366,23 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
         type: 'line'
     }];
 
-
+    /**
+     * Validate value
+     * er -> null
+     * "" -> 0 
+     * @param {*} value 
+     * @param {*} getNull 
+     */
+    var validateValue = function(value, getNull) {
+        var meaninglessData = ['er', ""];
+        var validatedValue = value;
+        if (meaninglessData.indexOf(value) != -1 && getNull) {
+            validatedValue = null;
+        }
+        if (meaninglessData.indexOf(value) != -1 && !getNull) {
+            validatedValue = 0;
+        }
+        return validatedValue;
+    }
 
 });
