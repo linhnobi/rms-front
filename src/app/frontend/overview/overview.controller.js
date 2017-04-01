@@ -14,12 +14,9 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
     $scope.sensor;
     moment.createFromInputFallback = function(config) {
         config._d = new Date(NaN);
-        console.log(config._d);
     }
 
-    $scope.changeStation = function() {
-        console.log('changeStation', $scope.station);
-    }
+    $scope.changeStation = function() {}
 
     /**
      * Get user info , get list station of user
@@ -75,8 +72,14 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                     beginAtZero: true
                 }
             }]
-        }
-    }
+        },
+        elements: {
+            point: {
+                radius: 0
+            }
+        },
+        legend: { display: true },
+    };
 
     $scope.$watchGroup(['momentDate', 'station'], function() {
         $scope.prevDay = function() {
@@ -126,6 +129,7 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                             rain8.push(validateValue(element.data[2], true));
                             water8.push(validateValue(element.data[3], true));
                         } else if ($scope.sensor == 24) {
+
                             rain24.push(validateValue(element.data[2], true));
                             pressure24.push(validateValue(element.data[8], true));
                             temperature24.push(validateValue(element.data[3], true));
@@ -140,8 +144,6 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                     $scope.data24Temperature.push(humidity24);
                     $scope.data24Rain.push(rain24);
                     $scope.data24Pressure.push(pressure24);
-                    console.log('$scope.data24Rain', $scope.data24Rain);
-
                 } else {
 
                 }
@@ -180,7 +182,7 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
 
 
 
-    });
+    }, true);
 
     // End $watchGroup
 
@@ -221,7 +223,7 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
             [10, 25, 50, 100, -1],
             [10, 25, 50, 100, "All"]
         ])
-        .withOption('autoWidth', false);
+        .withOption('autoWidth', true);
 
     // Vẽ Chart 24 sensor Lượng mưa
     $scope.series24Rain = ['Lượng mưa(mm)'];
@@ -231,7 +233,10 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                 id: 'y-axis-1',
                 type: 'linear',
                 display: true,
-                position: 'left'
+                position: 'left',
+                gridLines: {
+                    display: false,
+                }
             }],
             xAxes: [{
                 type: 'time',
@@ -253,7 +258,13 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                     beginAtZero: true
                 }
             }]
-        }
+        },
+        elements: {
+            point: {
+                radius: 0
+            }
+        },
+        legend: { display: true },
     };
 
     $scope.datasetOverride24Rain = [{
@@ -276,12 +287,19 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                     id: 'y-axis-1',
                     type: 'linear',
                     display: true,
-                    position: 'left'
+                    position: 'left',
+                    gridLines: {
+                        display: false,
+                    }
+
                 }, {
                     id: 'y-axis-2',
                     type: 'linear',
                     display: true,
-                    position: 'right'
+                    position: 'right',
+                    gridLines: {
+                        display: false,
+                    }
                 }
 
             ],
@@ -305,7 +323,13 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                     beginAtZero: true
                 }
             }]
-        }
+        },
+        elements: {
+            point: {
+                radius: 0
+            }
+        },
+        legend: { display: true },
     };
     $scope.datasetOverride24Temperature = [{
             yAxisID: 'y-axis-1',
@@ -356,7 +380,13 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                     beginAtZero: true
                 }
             }]
-        }
+        },
+        elements: {
+            point: {
+                radius: 0
+            }
+        },
+        legend: { display: true },
     };
     $scope.datasetOverride24Pressure = [{
         yAxisID: 'y-axis-1',
@@ -374,15 +404,17 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
      * @param {*} getNull 
      */
     var validateValue = function(value, getNull) {
-        var meaninglessData = ['er', ""];
+        var meaninglessData = ['er'];
+        var meaninglessData2 = [""];
         var validatedValue = value;
         if (meaninglessData.indexOf(value) != -1 && getNull) {
             validatedValue = null;
         }
-        if (meaninglessData.indexOf(value) != -1 && !getNull) {
+        if (meaninglessData2.indexOf(value) != -1 && getNull) {
             validatedValue = 0;
         }
         return validatedValue;
     }
 
+    console.log(validateValue('', true));
 });

@@ -26,15 +26,15 @@
             </form>
         </div>
         <div class="mb20 mt20">
-            <table ng-if="dataStation.length !=0" id="" class="table table-striped table-bordered " dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions">
+            <table class="tb-overview" ng-if="dataStation.length !=0" id="" class="table table-striped table-bordered " dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions">
                 <thead>
                     <tr>
-                        <th ng-repeat="col in dataRainDay.colHeader track by $index ">{{col}}</th>
+                        <th class="thead-name" ng-repeat="col in dataRainDay.colHeader track by $index ">{{col}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in dataStation track by $index">
-                        <td ng-repeat="it in item track by $index">{{it}}</td>
+                        <td class="tbody-td" ng-repeat="it in item track by $index">{{it}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -59,37 +59,37 @@
 
         <div class="mb20 mt20 ">
             <p ng-if="dataRainAllRow.length ==0">Trạm không có dữ liệu, vui lòng chọn trạm khác</p>
-            <table ng-if="dataRainAllRow.length !=0" id="" class="table table-striped table-bordered " dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions">
+            <table class="tb-overview" ng-if="dataRainAllRow.length !=0" id="" class="table table-striped table-bordered " dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions">
                 <thead>
                     <tr>
-                        <th ng-repeat="col in dataRainAll.colHeader track by $index ">{{col}}</th>
+                        <th class="thead-name" ng-repeat="col in dataRainAll.colHeader track by $index ">{{col}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in dataRainAllRow track by $index ">
-                        <td ng-repeat="it in item track by $index ">{{it}}</td>
+                        <td class="tbody-td" ng-repeat="it in item track by $index ">{{it}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="mb20 mt20" style="width: 100%; height: 40%" ng-if="sensor == 8">
+        <div class="mb20 mt20" style="width: 60%; height: 50%" ng-if="sensor == 8">
             <p>Biểu đồ lượng mưa</p>
             <canvas id="line" class="chart chart-line" chart-data="data_Chart8" chart-labels="ChartLabels" chart-series="waterSeries" chart-colors="waterColors" chart-options="waterChartOptions" chart-click="onClick" chart-dataset-override=""></canvas>
         </div>
 
-        <div class="mb20 mt20" style="width: 100%; height: 40%" ng-if="sensor == 24">
+        <div class="mb20 mt20" style="width: 60%; height: 50%" ng-if="sensor == 24">
             <p>Biểu đồ lượng mưa</p>
             <canvas id="line" class="chart chart-line" chart-data="data24Rain" chart-labels="ChartLabels" chart-series="series24Rain" chart-options="options24Rain" chart-dataset-override="datasetOverride24Rain" chart-colors="colors24Rain" chart-click="onClick"></canvas>
         </div>
 
-        <div class="mb20 mt20" style="width: 100%; height: 40%" ng-if="sensor == 24">
+        <div class="mb20 mt20" style="width: 60%; height: 50%" ng-if="sensor == 24">
             <p>Biểu đồ nhiệt đô, độ ẩm</p>
             <canvas id="line" class="chart chart-line" chart-data="data24Temperature" chart-labels="ChartLabels" chart-series="series24Temperature" chart-options="options24Temperature" chart-dataset-override="datasetOverride24Temperature" chart-colors="colors24Temperature"
                 chart-click="onClick"></canvas>
         </div>
 
-        <div class="mb20 mt20" style="width: 100%; height: 40%" ng-if="sensor == 24">
+        <div class="mb20 mt20" style="width: 60%; height: 50%" ng-if="sensor == 24">
             <p>Biểu đồ áp suât khí quyển</p>
             <canvas id="line" class="chart chart-line" chart-data="data24Pressure" chart-labels="ChartLabels" chart-series="series24Pressure" chart-options="options24Pressure" chart-dataset-override="datasetOverride24Pressure" chart-colors="colors24Pressure" chart-click="onClick"></canvas>
         </div>
