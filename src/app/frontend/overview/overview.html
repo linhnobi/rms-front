@@ -26,7 +26,7 @@
             </form>
         </div>
         <div class="mb20 mt20">
-            <table class="tb-overview" ng-if="dataStation.length !=0" id="" class="table table-striped table-bordered " dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions">
+            <table ng-if="dataStation.length !=0" id="" class="table table-striped table-bordered " dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions">
                 <thead>
                     <tr>
                         <th class="thead-name" ng-repeat="col in dataRainDay.colHeader track by $index ">{{col}}</th>
@@ -59,7 +59,7 @@
 
         <div class="mb20 mt20 ">
             <p ng-if="dataRainAllRow.length ==0">Trạm không có dữ liệu, vui lòng chọn trạm khác</p>
-            <table class="tb-overview" ng-if="dataRainAllRow.length !=0" id="" class="table table-striped table-bordered " dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions">
+            <table ng-if="dataRainAllRow.length !=0" id="" class="table table-striped table-bordered " dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions1">
                 <thead>
                     <tr>
                         <th class="thead-name" ng-repeat="col in dataRainAll.colHeader track by $index ">{{col}}</th>
@@ -75,7 +75,7 @@
 
         <div class="mb20 mt20" style="width: 60%; height: 50%" ng-if="sensor == 8">
             <p>Biểu đồ lượng mưa</p>
-            <canvas id="line" class="chart chart-line" chart-data="data_Chart8" chart-labels="ChartLabels" chart-series="waterSeries" chart-colors="waterColors" chart-options="waterChartOptions" chart-click="onClick" chart-dataset-override=""></canvas>
+            <canvas id="line" class="chart chart-line" chart-data="dataChart8" chart-labels="ChartLabels" chart-series="waterSeries" chart-colors="waterColors" chart-options="waterChartOptions" chart-click="onClick" chart-dataset-override=""></canvas>
         </div>
 
         <div class="mb20 mt20" style="width: 60%; height: 50%" ng-if="sensor == 24">

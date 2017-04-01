@@ -7,9 +7,6 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
     $scope.dtColumnsRainDay = [];
     $scope.dtColumnsRainAll = [];
     $scope.dtInstances = [];
-    $scope.countNext = 0;
-    $scope.countPrev = 0;
-    $scope.dataChart8 = [];
     $scope.waterdatasetOverride = [];
     $scope.sensor;
     moment.createFromInputFallback = function(config) {
@@ -83,13 +80,27 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
 
     $scope.$watchGroup(['momentDate', 'station'], function() {
         $scope.prevDay = function() {
-            $scope.countPrev++;
-            $scope.momentDate = moment().subtract($scope.countPrev, 'days').format('DD-MM-YYYY');
+            var paramPrev = []
+            var res = $scope.momentDate.split("-").reverse();
+            for (var i = 0; i < res.length; i++) {
+                if (i == 1) {
+                    res[i] = parseInt(res[i]) - 1;
+                }
+                paramPrev.push(parseInt(res[i]));
+            }
+            $scope.momentDate = moment(paramPrev).subtract(1, 'days').format('DD-MM-YYYY');
         }
 
         $scope.nextDay = function() {
-            $scope.countNext++;
-            $scope.momentDate = moment().add($scope.countNext, 'days').format('DD-MM-YYYY');
+            var paramNext = []
+            var res = $scope.momentDate.split("-").reverse();
+            for (var i = 0; i < res.length; i++) {
+                if (i == 1) {
+                    res[i] = parseInt(res[i]) - 1;
+                }
+                paramNext.push(parseInt(res[i]));
+            }
+            $scope.momentDate = moment(paramNext).add(1, 'days').format('DD-MM-YYYY');
         }
 
         Overview.getRainDay($scope.momentDate, 10).then(function(response) {
@@ -114,6 +125,7 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                 $scope.data24Rain = [];
                 $scope.data24Pressure = [];
                 $scope.data24Temperature = [];
+                $scope.dataChart8 = [];
                 $scope.dataRainAll = [];
                 $scope.dataRainAllRow = [];
                 $scope.listStation.forEach(function(_station) {
@@ -137,7 +149,6 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
                         }
 
                     });
-
                     $scope.dataChart8.push(rain8);
                     $scope.dataChart8.push(water8);
                     $scope.data24Temperature.push(temperature24);
@@ -148,11 +159,12 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
 
                 }
             });
+
         }
         // Vẽ Chart 8 sensor
 
         $scope.waterSeries = ['Lượng mưa', 'Mực nước'];
-        $scope.data_Chart8 = $scope.dataChart8;
+        //$scope.data_Chart8 = $scope.dataChart8;
 
         $scope.onClick = function(points, evt) {
             console.log(points, evt);
@@ -189,7 +201,7 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withDOM("<'row'<'col-sm-9'p><'col-sm-3'B>>" + "<'row wp-table'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'l>>")
         .withPaginationType('simple_numbers')
-        .withDisplayLength(10)
+        .withDisplayLength(5)
         .withBootstrap()
         .withButtons([
             'copy',
@@ -220,8 +232,47 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
             }
         })
         .withOption('lengthMenu', [
-            [10, 25, 50, 100, -1],
-            [10, 25, 50, 100, "All"]
+            [5, 10, 25, -1],
+            [5, 10, 25, "All"]
+        ])
+        .withOption('autoWidth', true);
+
+    $scope.dtOptions1 = DTOptionsBuilder.newOptions()
+        .withDOM("<'row'<'col-sm-9'p><'col-sm-3'B>>" + "<'row wp-table'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'l>>")
+        .withPaginationType('simple_numbers')
+        .withDisplayLength(30)
+        .withBootstrap()
+        .withButtons([
+            'copy',
+            'print',
+            'excel'
+        ])
+        .withLanguage({
+            "sEmptyTable": "Không có dữ liệu trong bảng",
+            "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
+            "sInfoFiltered": "(lọc từ _MAX_ tổng số bản ghi)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ",",
+            "sLengthMenu": "Hiển thị _MENU_ bản ghi",
+            "sLoadingRecords": "Đang tải...",
+            "sProcessing": "Đang xử lý...",
+            "sSearch": "Tìm kiếm : ",
+            "sZeroRecords": "Không tìm thấy kết quả",
+            "oPaginate": {
+                "sFirst": "Đầu tiên",
+                "sLast": "Cuối cùng",
+                "sNext": "Kế tiếp",
+                "sPrevious": "Trước"
+            },
+            "oAria": {
+                "sSortAscending": ": sắp xếp cột tăng dần",
+                "sSortDescending": ": sắp xếp cột giảm dần"
+            }
+        })
+        .withOption('lengthMenu', [
+            [30, 60, 90, -1],
+            [30, 60, 90, "All"]
         ])
         .withOption('autoWidth', true);
 
@@ -416,5 +467,4 @@ angular.module('rmsSystem').controller('OverviewCtrl', function($scope, Overview
         return validatedValue;
     }
 
-    console.log(validateValue('', true));
 });
