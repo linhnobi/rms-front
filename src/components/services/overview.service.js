@@ -4,7 +4,6 @@
 angular.module('rmsSystem').factory('Overview', ['Config', '$http',
     function(Config, $http) {
         var api = Config.api + 'meteorology/report';
-        console.log('api', api);
         return {
             getRainDay: function(date, countDay) {
                 return $http.get(api + '/network/muangaydem/' + date + '/' + countDay);
