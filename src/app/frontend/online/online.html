@@ -6,6 +6,57 @@
                 <div class="col-md-6">
                         <div id="tab_map" class="tab-pane" area="currentArea" stations="stations" userinfo="userinfo" rms-map></div>
                 </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                             <table ng-if="dataStation.length !=0" id="" class="table table-striped table-bordered " dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions">
+                            <thead>
+                                <tr>
+                                    <th class="thead-name" ng-repeat="col in dataRainDay.colHeader track by $index ">{{col}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in dataStation track by $index ">
+                                    <td class="tbody-td" ng-repeat="it in item track by $index ">{{it}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>Chọn trạm</p>
+                            <select class="form-control" ng-options="item.key as item.value for item in listStation " ng-model="station" ng-change="changeStation() ">
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <p>Chọn ngày</p>
+                            <select class="form-control" ng-model="days" ng-options="day as day for day in listDays">
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <p>Chọn phút</p>
+                            <select class="form-control" ng-model="minutes" ng-options="minute as minute for minute in listMinutes">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                         <table ng-if="dataStationSum.length !=0" id="" class="table table-striped table-bordered " dt-column-defs="dtColumnDefs" datatable="ng" dt-options="dtOptions">
+                            <thead>
+                                <tr>
+                                    <th class="thead-name" ng-repeat="col in colHeaderSum track by $index ">{{col}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in dataStationSum track by $index ">
+                                    <td class="tbody-td" ng-repeat="it in item track by $index ">{{it}}</td>
+                                </tr>
+                            </tbody>
+                    </div>
+
+                </div>
             </div>
         </div>
         

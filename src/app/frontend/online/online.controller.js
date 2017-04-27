@@ -1,11 +1,29 @@
 'use strict';
 
-angular.module('rmsSystem').controller('OnlineCtrl', function($scope, Overview, Station, User, geoJson, $timeout, $cookieStore, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder) {
+angular.module('rmsSystem').controller('OnlineCtrl', function($scope, Online, Station, User, geoJson, $timeout, $cookieStore, DTOptionsBuilder, DTColumnBuilder, DTColumnDefBuilder) {
+	
+	$scope.momentDate = moment().format('DD-MM-YYYY');
+	$scope.dataRainDay = [];
+    $scope.dataStation = [];
+    $scope.dataRainSum = [];
+    $scope.dataStationSum = [];
+    $scope.colHeaderSum = [];
+    $scope.listDays = [1,2,3,5,10];
+    $scope.listMinutes = [60,180,360];
+    $scope.days = $scope.listDays[0];
+    $scope.minutes = $scope.listMinutes[0];
+	/**
+	 *	Get info user
+	 */
 	$scope.userinfo = {};
 	var userId = $cookieStore.get('localData')['userId'];
     User.getProfile(userId).then(function(response) {
         $scope.userinfo = response.data;
-        console.log(response.data);
+        $scope.listStation = response.data.stationPermission;
+        if($scope.listStation) {
+        	$scope.station = $scope.listStation[0].key;
+        }
+       
     });
 
     var initArea = function(jsonData) {
@@ -63,7 +81,6 @@ angular.module('rmsSystem').controller('OnlineCtrl', function($scope, Overview, 
         return out;
     };
 
-    //var areas = [];
     $scope.areas = initArea(geoJson);
     $scope.currentArea = null;
     $timeout(function() {
@@ -128,7 +145,6 @@ angular.module('rmsSystem').controller('OnlineCtrl', function($scope, Overview, 
     $scope.$on('station:select', function(event, station) {
         $scope.model.station = station;
         $scope.$$phase || $scope.$apply();
-        console.log('1');
     });
 
     $scope.getStationByArea = function(areaCode) {
@@ -146,5 +162,76 @@ angular.module('rmsSystem').controller('OnlineCtrl', function($scope, Overview, 
         }
     };
 
+    Online.getRainDay($scope.momentDate, 3).then(function (response) {
+        $scope.dataRainDay = response.data;
 
+        $scope.dataRainDay.rows.forEach(function(element) {
+            $scope.dataStation.push(element.data);
+        });
+    });
+
+    $scope.$watchGroup(['station', 'days', 'minutes', 'model.station'], function() {
+    	var paramStation;
+
+
+    	if ($scope.model.station) {
+    		paramStation = $scope.model.station.key;
+    		$scope.station = paramStation;
+    		$scope.dataRainSum = [];
+    		$scope.dataStationSum = [];
+    		$scope.colHeaderSum = [];
+    	} else {
+    		paramStation = $scope.station;
+    	}
+
+    	Online.getRainSum(paramStation, $scope.momentDate, $scope.days, $scope.minutes).then(function(response) {
+    		console.log('response.data',response.data);
+    		$scope.dataRainSum = response.data;
+    		$scope.colHeaderSum = response.data.colHeader;
+	        $scope.dataRainSum.rows.forEach(function(element) {
+	            $scope.dataStationSum.push(element.data);
+	        });
+	        console.log('$scope.colHeaderSum',$scope.colHeaderSum);
+    	});
+    });
+
+    // Config datatables
+    $scope.dtOptions = DTOptionsBuilder.newOptions()
+        .withDOM("<'row'<'col-sm-8'p><'col-sm-4'B>>" + "<'row wp-table'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'l>>")
+        .withPaginationType('simple_numbers')
+        .withDisplayLength(5)
+        .withBootstrap()
+        .withButtons([
+            'copy',
+            'print',
+            'excel'
+        ])
+        .withLanguage({
+            "sEmptyTable": "Không có dữ liệu trong bảng",
+            "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ bản ghi",
+            "sInfoEmpty": "Hiển thị 0 đến 0 của 0 bản ghi",
+            "sInfoFiltered": "(lọc từ _MAX_ tổng số bản ghi)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ",",
+            "sLengthMenu": "Hiển thị _MENU_ bản ghi",
+            "sLoadingRecords": "Đang tải...",
+            "sProcessing": "Đang xử lý...",
+            "sSearch": "Tìm kiếm : ",
+            "sZeroRecords": "Không tìm thấy kết quả",
+            "oPaginate": {
+                "sFirst": "Đầu tiên",
+                "sLast": "Cuối cùng",
+                "sNext": "Kế tiếp",
+                "sPrevious": "Trước"
+            },
+            "oAria": {
+                "sSortAscending": ": sắp xếp cột tăng dần",
+                "sSortDescending": ": sắp xếp cột giảm dần"
+            }
+        })
+        .withOption('lengthMenu', [
+            [5, 10, 25, -1],
+            [5, 10, 25, "All"]
+        ])
+        .withOption('autoWidth', true);
 });
